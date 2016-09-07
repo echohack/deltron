@@ -6,3 +6,4 @@ secrets.tfvars
 !example.tfvars
 !example_secrets.tfvars
 *.keys
+*.license
