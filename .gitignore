@@ -1,4 +1,8 @@
-.DS_Store
 *.tfvars
 *.tfstate*
+
+.DS_Store
+secrets.tfvars
+!example.tfvars
+!example_secrets.tfvars
 *.keys
