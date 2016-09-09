@@ -29,7 +29,7 @@ variable "aws_ami_user" {
   default = "ec2-user"
 }
 
-variable "aws_ami_rhel" { default = "ami-775e4f16" } #rhel72 US-west2
+variable "aws_ami_rhel" { default = "ami-a3fa16c3" } #rhel72 US-west2
  
 # need to update these for rhel7
 variable "centos-6-amis" {
