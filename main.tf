@@ -24,7 +24,7 @@ resource "aws_route_table_association" "automate_public_routing" {
 }
 
 resource "aws_security_group" "chef_server" {
-  name        = "chef_server"
+  name        = "chef_server_${var.automate_instance_id}"
   description = "Terraform Automate Chef Server"
   vpc_id      = "${var.automate_vpc}"
 
@@ -34,7 +34,7 @@ resource "aws_security_group" "chef_server" {
 }
 
 # SSH - all
-resource "aws_security_group_rule" "chef_server_allow_22_tcp_all" {
+resource "aws_security_group_rule" "ingress_chef_server_allow_22_tcp_all" {
   type = "ingress"
   from_port = 22
   to_port = 22
@@ -44,7 +44,7 @@ resource "aws_security_group_rule" "chef_server_allow_22_tcp_all" {
 }
 
 # HTTP (nginx)
-resource "aws_security_group_rule" "chef_server_allow_80_tcp" {
+resource "aws_security_group_rule" "ingress_chef_server_allow_80_tcp" {
   type = "ingress"
   from_port = 80
   to_port = 80
@@ -54,7 +54,7 @@ resource "aws_security_group_rule" "chef_server_allow_80_tcp" {
 }
 
 # HTTPS (nbinx)
-resource "aws_security_group_rule" "chef_server_allow_443_tcp" {
+resource "aws_security_group_rule" "ingress_chef_server_allow_443_tcp" {
   type = "ingress"
   from_port = 443
   to_port = 443
@@ -64,7 +64,7 @@ resource "aws_security_group_rule" "chef_server_allow_443_tcp" {
 }
 
 # oc_bifrost
-resource "aws_security_group_rule" "chef_server_allow_9463_tcp" {
+resource "aws_security_group_rule" "ingress_chef_server_allow_9463_tcp" {
   type = "ingress"
   from_port = 9463
   to_port = 9463
@@ -74,7 +74,7 @@ resource "aws_security_group_rule" "chef_server_allow_9463_tcp" {
 }
 
 # oc_bifrost (nginx LB)
-resource "aws_security_group_rule" "chef_server_allow_9683_tcp" {
+resource "aws_security_group_rule" "ingress_chef_server_allow_9683_tcp" {
   type = "ingress"
   from_port = 9683
   to_port = 9683
@@ -84,7 +84,7 @@ resource "aws_security_group_rule" "chef_server_allow_9683_tcp" {
 }
 
 # opscode push-jobs
-resource "aws_security_group_rule" "chef_server_allow_10000-10003_tcp" {
+resource "aws_security_group_rule" "ingress_chef_server_allow_10000-10003_tcp" {
   type = "ingress"
   from_port = 10000
   to_port = 10003
@@ -94,7 +94,7 @@ resource "aws_security_group_rule" "chef_server_allow_10000-10003_tcp" {
 }
 
 # Allow all Chef 
-resource "aws_security_group_rule" "chef_server_allow_all_chef_automate" {
+resource "aws_security_group_rule" "ingress_chef_server_allow_all_chef_automate" {
   type = "ingress"
   from_port = 0
   to_port = 0
@@ -104,7 +104,7 @@ resource "aws_security_group_rule" "chef_server_allow_all_chef_automate" {
 }
 
 # Egress: ALL
-resource "aws_security_group_rule" "chef_server_allow_0-65535_all" {
+resource "aws_security_group_rule" "egress_chef_server_allow_0-65535_all" {
   type = "egress"
   from_port = 0
   to_port = 0
@@ -114,7 +114,7 @@ resource "aws_security_group_rule" "chef_server_allow_0-65535_all" {
 }
 
 resource "aws_security_group" "chef_automate" {
-  name        = "chef_automate"
+  name        = "chef_automate_${var.automate_instance_id}"
   description = "Terraform Chef Automate Server"
   vpc_id      = "${var.automate_vpc}"
 
@@ -124,7 +124,7 @@ resource "aws_security_group" "chef_automate" {
 }
 
 # SSH - all
-resource "aws_security_group_rule" "chef_automate_allow_22_tcp_all" {
+resource "aws_security_group_rule" "ingress_chef_automate_allow_22_tcp_all" {
   type = "ingress"
   from_port = 22
   to_port = 22
@@ -134,7 +134,7 @@ resource "aws_security_group_rule" "chef_automate_allow_22_tcp_all" {
 }
 
 # HTTP
-resource "aws_security_group_rule" "chef_automate_allow_80_tcp" {
+resource "aws_security_group_rule" "ingress_chef_automate_allow_80_tcp" {
   type = "ingress"
   from_port = 80
   to_port = 80
@@ -144,7 +144,7 @@ resource "aws_security_group_rule" "chef_automate_allow_80_tcp" {
 }
 
 # HTTPS
-resource "aws_security_group_rule" "chef_automate_allow_443_tcp" {
+resource "aws_security_group_rule" "ingress_chef_automate_allow_443_tcp" {
   type = "ingress"
   from_port = 443
   to_port = 443
@@ -154,7 +154,7 @@ resource "aws_security_group_rule" "chef_automate_allow_443_tcp" {
 }
 
 # Automate GIT
-resource "aws_security_group_rule" "chef_automate_allow_8989_tcp" {
+resource "aws_security_group_rule" "ingress_chef_automate_allow_8989_tcp" {
   type = "ingress"
   from_port = 8989
   to_port = 8989
@@ -164,7 +164,7 @@ resource "aws_security_group_rule" "chef_automate_allow_8989_tcp" {
 }
 
 # Allow all Chef Server
-resource "aws_security_group_rule" "chef_automate_allow_all_chef_server" {
+resource "aws_security_group_rule" "ingress_chef_automate_allow_all_chef_server" {
   type = "ingress"
   from_port = 0
   to_port = 0
@@ -174,13 +174,17 @@ resource "aws_security_group_rule" "chef_automate_allow_all_chef_server" {
 }
 
 # Egress: ALL
-resource "aws_security_group_rule" "chef_automate_allow_0-65535_all" {
+resource "aws_security_group_rule" "egress_chef_automate_allow_0-65535_all" {
   type = "egress"
   from_port = 0
   to_port = 0
   protocol = "-1"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.chef_automate.id}"
+}
+
+data "template_file" "chef_server" {
+  template = "${file("./chef_server.tpl")}"
 }
 
 resource "aws_instance" "chef_server" {
@@ -194,18 +198,29 @@ resource "aws_instance" "chef_server" {
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${aws_subnet.automate_subnet.id}"
   security_groups = ["${aws_security_group.chef_server.id}"]
+  
+  ebs_optimized   = true
+  
+  root_block_device {
+    delete_on_termination = true
+    volume_size = 100
+    volume_type = "io1"
+    iops        = 5000
+  }
 
   tags {
-    Name      = "${format("${var.automate_tag}_chef_server_%02d", count.index + 1)}"
+    Name      = "${format("${var.automate_tag}_chef_server_%02d_${var.automate_instance_id}", count.index + 1)}"
     X-Project = "CSE"
   }
 
+  # Set hostname in separate connection.
+  # Transient hostname doesn't set correctly in time otherwise.
   provisioner "remote-exec" {
     inline = ["sudo hostnamectl set-hostname ${aws_instance.chef_server.public_dns}"]
   }
 
   provisioner "file" {
-    source      = "chef_server.sh"
+    content      = "${data.template_file.chef_server.rendered}"
     destination = "~/chef_server.sh"
   }
 
@@ -236,14 +251,26 @@ resource "aws_instance" "chef_automate" {
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${aws_subnet.automate_subnet.id}"
   security_groups = ["${aws_security_group.chef_automate.id}"]
+  ebs_optimized   = true
+  
+  root_block_device {
+    delete_on_termination = true
+    volume_size = 100
+    volume_type = "io1"
+    iops        = 5000
+  }
 
   tags {
     Name      = "${format("${var.automate_tag}_chef_automate_%02d", count.index + 1)}"
     X-Project = "CSE"
   }
 
+  # Set hostname in separate connection.
+  # Transient hostname doesn't set correctly in time otherwise.
   provisioner "remote-exec" {
-    inline = ["sudo hostnamectl set-hostname ${aws_instance.chef_automate.public_dns}"]
+    inline = [
+      "sudo hostnamectl set-hostname ${aws_instance.chef_automate.public_dns}",
+    ]
   }
 
   provisioner "file" {
@@ -254,39 +281,5 @@ resource "aws_instance" "chef_automate" {
   provisioner "file" {
     source      = ".keys/chef_automate.pem"
     destination = "~/chef_automate.pem"
-  }
-}
-
-data "template_file" "chef_automate_sh" {
-  template = "${file("./chef_automate.tpl")}"
-  vars {    
-    chef_automate_user_key = "~/chef_automate.pem"
-    chef_server_public_dns = "${aws_instance.chef_server.public_dns}"
-    chef_automate_org = "delivery"
-    chef_automate_public_dns = "${aws_instance.chef_automate.public_dns}"
-    enterprise_name = "myface"
-  }
-}
-
-
-# looking for a way to get around circular dependency with rendering template on chef_automate server while knowing public_dns....?
-resource "null_resource" "chef_automate_install" {
-
-  connection {
-    host = "${aws_instance.chef_automate.public_ip}"
-    user     = "${var.aws_ami_user}"
-    key_file = ".keys/${var.aws_key_pair_name}.pem"
-  }
-
-  provisioner "file" {
-    content      = "${data.template_file.chef_automate_sh.rendered}"
-    destination = "~/chef_automate.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x ~/chef_automate.sh",
-      "~/chef_automate.sh",
-    ]
   }
 }
