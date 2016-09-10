@@ -22,6 +22,10 @@ variable "automate_tag" { default = "terraform_automate" }
 # unique identifier for this instance of Chef Automate
 variable "automate_instance_id" { default = "override_me" }
 
+variable "aws_build_node_instance_type" {
+  default = "t2.medium"
+}
+
 variable "aws_instance_type" {
   default = "m4.xlarge"
 }
@@ -30,7 +34,8 @@ variable "aws_ami_user" {
 }
 
 variable "aws_ami_rhel" { default = "ami-a3fa16c3" } #rhel72 US-west2
- 
+# rhel 72 US-east-1 = ami-85241def
+
 # need to update these for rhel7
 variable "centos-6-amis" {
   default = {
