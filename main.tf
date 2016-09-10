@@ -314,7 +314,7 @@ resource "aws_instance" "build_nodes" {
   provisioner "remote-exec" {
     inline = [
       "sudo useradd chef -p \\$6\\$sBhkyEwj\\$NZAqoAs3zFOygX2nH.wouLwe6h3zMgXnp3IVgLCTzrsJn1hVUU8qmH3kzyQCAVwtRGOQpfrZKvwtUx\\/1qWZjq0",
-      "sudo echo 'chef ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/80-chef-users",
+      "sudo bash -c 'echo \"chef ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/80-chef-users'",
       "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config",
       "sudo service sshd restart",
     ]
