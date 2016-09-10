@@ -400,7 +400,7 @@ resource "null_resource" "automate_setup" {
     inline = [
       "sudo curl -o /home/ec2-user/chefdk-0.17.17-1.el7.x86_64.rpm -L https://packages.chef.io/stable/el/7/chefdk-0.17.17-1.el7.x86_64.rpm",
       "sudo mkdir /etc/delivery",
-      "sudo cp /home/ec2-user/chef_automate.pem /etc/delivery",
+      "sudo cp /home/ec2-user/chef_automate.pem /etc/delivery/delivery.pem",
       "sudo cp /home/ec2-user/delivery.rb /etc/delivery",
       "sudo mkdir -p /var/opt/delivery/license/",
       "sudo cp /home/ec2-user/chef_automate.license /var/opt/delivery/license/delivery.license",
