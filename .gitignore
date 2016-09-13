@@ -7,3 +7,4 @@ secrets.tfvars
 !example_secrets.tfvars
 *.keys
 *.license
+admin.creds

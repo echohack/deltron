@@ -9,3 +9,9 @@ tf_chef_automate is a blueprint for creating your own [Chef Automate](https://ww
 1. Run `terraform plan -var-file secrets.tfvars`.
 1. Run `terraform apply -var-file secrets.tfvars`.
 1. Create a new private repo and commit your `terraform.tfvars`, `terraform.tfstate`, and any changes to your own repository.
+
+# Builder keys
+
+You must provide a public/private builder key pair. They must be in ``.keys/builder_key` and ``.keys/builder_key.pub` for now.
+
+You can generate them using `ssh-keygen -t rsa`, or however you prefer to generate your ssh keys.
