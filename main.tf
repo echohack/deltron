@@ -237,7 +237,7 @@ resource "aws_instance" "chef_server" {
   instance_type   = "${var.aws_instance_type}"
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${aws_subnet.automate_subnet.id}"
-  security_groups = ["${aws_security_group.chef_server.id}"]
+  vpc_security_group_ids = ["${aws_security_group.chef_server.id}"]
 
   ebs_optimized   = true
 
@@ -290,7 +290,7 @@ resource "aws_instance" "build_nodes" {
   instance_type   = "${var.aws_build_node_instance_type}"
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${aws_subnet.automate_subnet.id}"
-  security_groups = ["${aws_security_group.build_nodes.id}"]
+  vpc_security_group_ids = ["${aws_security_group.build_nodes.id}"]
   ebs_optimized   = false
   count = 3
 
@@ -331,7 +331,7 @@ resource "aws_instance" "chef_automate" {
   instance_type   = "${var.aws_instance_type}"
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${aws_subnet.automate_subnet.id}"
-  security_groups = ["${aws_security_group.chef_automate.id}"]
+  vpc_security_group_ids = ["${aws_security_group.chef_automate.id}"]
   ebs_optimized   = true
 
   root_block_device {
