@@ -244,31 +244,48 @@ resource "aws_instance" "chef_server" {
     X-Project = "CSE"
   }
 
+  #vendor cookbooks
+  provisioner "local-exec" {
+    command = "berks vendor vendored-cookbooks/"
+  }
+
   # Set hostname in separate connection.
   # Transient hostname doesn't set correctly in time otherwise.
   provisioner "remote-exec" {
     inline = ["sudo hostnamectl set-hostname ${aws_instance.chef_server.public_dns}"]
   }
-
-  provisioner "file" {
-    content      = "${data.template_file.chef_server.rendered}"
-    destination = "~/chef_server.sh"
-  }
-
   provisioner "remote-exec" {
     inline = [
-      "chmod +x ~/chef_server.sh",
-      "~/chef_server.sh",
+      "mkdir -p /tmp/workspace/cookbooks"
+    ]
+  }
+  provisioner "file" {
+    source = "vendored-cookbooks/"
+    destination = "/tmp/workspace/cookbooks"
+  }
+  provisioner "file" {
+    source = "Berksfile"
+    destination = "/tmp/workspace/Berksfile"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "curl -L https://www.chef.io/chef/install.sh | sudo bash",
+      "echo 'cookbook_path \"/tmp/workspace/cookbooks\"' > /tmp/solo.rb",
+      "sudo mkdir -p /etc/chef/ohai/hints",
+      "sudo touch /etc/chef/ohai/hints/ec2.json",
+      "sudo chef-solo -c /tmp/solo.rb -o 'recipe[chef_server::default]'"
     ]
   }
 
   provisioner "local-exec" {
-    command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_server.public_dns}:~/chef_automate.pem .keys"
+    command = "mkdir .chef;scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_server.public_dns}:/tmp/delivery-validator.pem .chef"
   }
+}
 
-  provisioner "local-exec" {
-    command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_server.public_dns}:~/delivery-validator.pem .keys"
-  }
+# template to delay reading of validator key
+data "template_file" "delivery_validator" {
+  template = "${file(".chef/delivery-validator.pem")}"
+  depends_on = ["aws_instance.chef_server"]
 }
 
 resource "aws_instance" "build_nodes" {
@@ -344,23 +361,39 @@ resource "aws_instance" "chef_automate" {
       "sudo hostnamectl set-hostname ${aws_instance.chef_automate.public_dns}",
     ]
   }
+  provisioner "file" {
+    source      = "chef_automate.license"
+    destination = "~/chef_automate.license"
+  }
+  provisioner "file" {
+    source      = ".chef/delivery-validator.pem"
+    destination = "/etc/chef/validation.pem"
+  }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo curl -o /home/ec2-user/delivery-0.5.204-1.el7.x86_64.rpm -L https://packages.chef.io/stable/el/7/delivery-0.5.204-1.el7.x86_64.rpm",
-      "sudo rpm -Uvh -i /home/ec2-user/delivery-0.5.204-1.el7.x86_64.rpm"
-    ]
+  provisioner "chef"  {
+    attributes_json = <<-EOF
+    {
+        "tags": "automate_server",
+        "chef_automate": {
+            "chef_server": "${aws_instance.chef_server.public_dns}",
+            "build_nodes": ["${aws_instance.build_nodes.0.public_dns}","${aws_instance.build_nodes.1.public_dns}","${aws_instance.build_nodes.2.public_dns}"]
+        }
+    }
+    EOF
+    environment = "_default"
+    fetch_chef_certificates = true
+    run_list = ["chef_automate::default"]
+    node_name = "${aws_instance.chef_automate.public_dns}"
+    server_url = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
+    validation_client_name = "delivery-validator"
+    validation_key = "${data.template_file.delivery_validator.rendered}"
+  }
+  provisioner "local-exec" {
+    command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_automate.public_dns}:~/admin.creds ./"
   }
 }
 
-data "template_file" "chef_automate" {
-  template = "${file("./chef_automate.tpl")}"
-  vars {
-    chef_server_public_dns = "${aws_instance.chef_server.public_dns}",
-    chef_automate_public_dns = "${aws_instance.chef_automate.public_dns}"
-  }
-}
-
+/*
 resource "null_resource" "automate_setup" {
   connection {
     user     = "${var.aws_ami_user}"
@@ -408,4 +441,4 @@ resource "null_resource" "automate_setup" {
   provisioner "local-exec" {
     command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_automate.public_dns}:~/admin.creds ./"
   }
-}
+}*/

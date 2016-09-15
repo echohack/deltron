@@ -45,6 +45,6 @@ This project assumes that your security team has already created VPCs, security_
 
 # Builder keys
 
-You must provide a public/private builder key pair. They must be in ``.keys/builder_key` and ``.keys/builder_key.pub` for now.
+You must provide a public/private builder key pair. They must be in `.keys/builder_key` and `.keys/builder_key.pub` for now.
 
 You can generate them using `ssh-keygen -t rsa`, or however you prefer to generate your ssh keys.
