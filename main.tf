@@ -9,17 +9,8 @@ resource "aws_main_route_table_association" "a" {
   route_table_id = "${var.automate_route_table_id}"
 }
 
-resource "aws_subnet" "automate_subnet" {
-  vpc_id                  = "${var.automate_vpc}"
-  cidr_block              = "33.33.34.0/24"
-  map_public_ip_on_launch = true
-  tags = {
-    Name = "${var.automate_tag}_subnet"
-  }
-}
-
 resource "aws_route_table_association" "automate_public_routing" {
-  subnet_id      = "${aws_subnet.automate_subnet.id}"
+  subnet_id      = "${var.automate_subnet}"
   route_table_id = "${var.automate_route_table_id}"
 }
 
@@ -236,7 +227,7 @@ resource "aws_instance" "chef_server" {
   ami             = "${var.aws_ami_rhel}"
   instance_type   = "${var.aws_instance_type}"
   key_name        = "${var.aws_key_pair_name}"
-  subnet_id       = "${aws_subnet.automate_subnet.id}"
+  subnet_id       = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.chef_server.id}"]
 
   ebs_optimized   = true
@@ -289,7 +280,7 @@ resource "aws_instance" "build_nodes" {
   ami             = "${var.aws_ami_rhel}"
   instance_type   = "${var.aws_build_node_instance_type}"
   key_name        = "${var.aws_key_pair_name}"
-  subnet_id       = "${aws_subnet.automate_subnet.id}"
+  subnet_id       = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.build_nodes.id}"]
   ebs_optimized   = false
   count = 3
@@ -330,7 +321,7 @@ resource "aws_instance" "chef_automate" {
   ami             = "${var.aws_ami_rhel}"
   instance_type   = "${var.aws_instance_type}"
   key_name        = "${var.aws_key_pair_name}"
-  subnet_id       = "${aws_subnet.automate_subnet.id}"
+  subnet_id       = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.chef_automate.id}"]
   ebs_optimized   = true
 

@@ -15,6 +15,8 @@ variable "aws_default_region" {}
 
 variable "automate_vpc" {}
 
+variable "automate_subnet" {}
+
 variable "automate_route_table_id" {}
 
 variable "automate_tag" { default = "terraform_automate" }
