@@ -302,7 +302,7 @@ resource "aws_instance" "build_nodes" {
   }
 
   tags {
-    Name      = "${format("${var.automate_tag}_build_node_%02d", count.index + 1)}"
+    Name      = "${format("${var.automate_tag}_build_node_%02d_${var.automate_instance_id}", count.index + 1)}"
     X-Project = "CSE"
   }
 
@@ -342,7 +342,7 @@ resource "aws_instance" "chef_automate" {
   }
 
   tags {
-    Name      = "${format("${var.automate_tag}_chef_automate_%02d", count.index + 1)}"
+    Name      = "${format("${var.automate_tag}_chef_automate_%02d_${var.automate_instance_id}", count.index + 1)}"
     X-Project = "CSE"
   }
 
