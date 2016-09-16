@@ -244,12 +244,6 @@ resource "aws_instance" "chef_server" {
     X-Project = "CSE"
   }
 
-  provisioner "local-exec" {
-    command = "ssh-keygen -t rsa -N '' -f .chef/delivery-validator.pem -y"
-  }
-  provisioner "local-exec" {
-    command = "openssl rsa -in .chef/delivery-validator.pem -pubout -out .chef/delivery-validator.pub"
-  }
   #vendor cookbooks
   provisioner "local-exec" {
     command = "berks vendor vendored-cookbooks/"
