@@ -42,22 +42,6 @@ This project assumes that your security team has already created VPCs, security_
 - automate_subnet - The [Subnet](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html) under which all aws resource will be created.
 - automate_route_table_id - The [Route Table](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html) under which all aws resources will be created.
 
-
-# Delivery validator keys
-
-You must provide your own Delivery validator key.
-
 # Builder keys
 
-You no longer need to provide builder keys. Once you've generated a `delivery-validator.pem` using `ssh-keygen` or your other favorite key generator, you can generate the public key in the format needed by the Chef server by using a command like `openssl rsa -in delivery-validator.pem -pubout -out delivery-validator.pub`.
-
-The two files need to be in the `.chef` directory as `delivery-validator.pem` and `delivery-validator.pub`.
-
-TODO: Automate that ^^
-
-# Vendor cookbooks
-
-Before you apply the terraform plan you need to vendor the cookbooks, you can accomplish this by running the following commands from the root of the project:
-
-`berks install`
-`berks vendor vendored-cookbooks/`
+You no longer need to provide builder keys. 

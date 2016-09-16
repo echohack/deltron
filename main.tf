@@ -244,6 +244,12 @@ resource "aws_instance" "chef_server" {
     X-Project = "CSE"
   }
 
+  provisioner "local-exec" {
+    command = "ssh-keygen -t rsa -N "" -f .chef/delivery-validator.pem -y"
+  }
+  provisioner "local-exec" {
+    command = "openssl rsa -in .chef/delivery-validator.pem -pubout -out .chef/delivery-validator.pub"
+  }
   #vendor cookbooks
   provisioner "local-exec" {
     command = "berks vendor vendored-cookbooks/"
@@ -362,12 +368,14 @@ resource "aws_instance" "chef_automate" {
   provisioner "remote-exec" {
     inline = [
       "sudo hostnamectl set-hostname ${aws_instance.chef_automate.public_dns}",
+      "sudo mkdir /etc/chef/"
     ]
   }
   provisioner "file" {
     source      = "chef_automate.license"
     destination = "~/chef_automate.license"
   }
+
   provisioner "chef"  {
     attributes_json = <<-EOF
     {
