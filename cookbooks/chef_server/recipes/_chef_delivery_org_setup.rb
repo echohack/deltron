@@ -21,3 +21,7 @@ chef_server_org 'delivery' do
   admins %w{ delivery }
   action :add_admin
 end
+
+execute 'add_validator_key' do
+  command 'chef-server-ctl add-client-key delivery delivery-validator --public-key-path /tmp/workspace/delivery-validator.pub'
+end

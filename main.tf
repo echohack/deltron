@@ -267,6 +267,10 @@ resource "aws_instance" "chef_server" {
     source = "Berksfile"
     destination = "/tmp/workspace/Berksfile"
   }
+  provisioner "file" {
+    source = ".chef/delivery-validator.pub"
+    destination = "/tmp/workspace/delivery-validator.pub"
+  }
   provisioner "remote-exec" {
     inline = [
       "curl -L https://www.chef.io/chef/install.sh | sudo bash",
@@ -276,16 +280,6 @@ resource "aws_instance" "chef_server" {
       "sudo chef-solo -c /tmp/solo.rb -o 'recipe[chef_server::default]'"
     ]
   }
-
-  provisioner "local-exec" {
-    command = "mkdir .chef;scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_server.public_dns}:/tmp/delivery-validator.pem .chef"
-  }
-}
-
-# template to delay reading of validator key
-data "template_file" "delivery_validator" {
-  template = "${file(".chef/delivery-validator.pem")}"
-  depends_on = ["aws_instance.chef_server"]
 }
 
 resource "aws_instance" "build_nodes" {
@@ -329,6 +323,15 @@ resource "aws_instance" "build_nodes" {
   }
 }
 
+# template to delay reading of validator key
+data "template_file" "delivery_validator" {
+  template = "${delivery_validator}"
+  vars {
+    delivery_validator = "${file(".chef/delivery-validator.pem")}"
+  }
+  depends_on = ["aws_instance.chef_server"]
+}
+
 resource "aws_instance" "chef_automate" {
   connection {
     user     = "${var.aws_ami_user}"
@@ -365,11 +368,6 @@ resource "aws_instance" "chef_automate" {
     source      = "chef_automate.license"
     destination = "~/chef_automate.license"
   }
-  provisioner "file" {
-    source      = ".chef/delivery-validator.pem"
-    destination = "/etc/chef/validation.pem"
-  }
-
   provisioner "chef"  {
     attributes_json = <<-EOF
     {
@@ -392,53 +390,3 @@ resource "aws_instance" "chef_automate" {
     command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_automate.public_dns}:~/admin.creds ./"
   }
 }
-
-/*
-resource "null_resource" "automate_setup" {
-  connection {
-    user     = "${var.aws_ami_user}"
-    key_file = ".keys/${var.aws_key_pair_name}.pem"
-    host     = "${aws_instance.chef_automate.public_dns}"
-  }
-  provisioner "file" {
-    source      = "chef_automate.license"
-    destination = "~/chef_automate.license"
-  }
-  provisioner "file" {
-    source      = ".keys/chef_automate.pem"
-    destination = "~/chef_automate.pem"
-  }
-  provisioner "file" {
-    content      = "${data.template_file.chef_automate.rendered}"
-    destination = "~/delivery.rb"
-  }
-  provisioner "file" {
-    source      = ".keys/builder_key"
-    destination = "~/builder_key"
-  }
-  provisioner "file" {
-    source      = ".keys/builder_key.pub"
-    destination = "~/builder_key.pub"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "sudo curl -o /home/ec2-user/chefdk-0.17.17-1.el7.x86_64.rpm -L https://packages.chef.io/stable/el/7/chefdk-0.17.17-1.el7.x86_64.rpm",
-      "sudo mkdir /etc/delivery",
-      "sudo cp /home/ec2-user/chef_automate.pem /etc/delivery/delivery.pem",
-      "sudo cp /home/ec2-user/delivery.rb /etc/delivery",
-      "sudo mkdir -p /var/opt/delivery/license/",
-      "sudo cp /home/ec2-user/chef_automate.license /var/opt/delivery/license/delivery.license",
-      "sudo chown root:root /etc/delivery/*",
-      "sudo delivery-ctl reconfigure",
-      "sudo mv /home/ec2-user/builder_key* /etc/delivery/",
-      "sudo delivery-ctl create-enterprise delivery --ssh-pub-key-file=/etc/delivery/builder_key.pub > /home/ec2-user/admin.creds",
-      "sudo delivery-ctl install-build-node --fqdn ${aws_instance.build_nodes.0.public_dns} --username chef --installer /home/ec2-user/chefdk-0.17.17-1.el7.x86_64.rpm --password chef --overwrite-registration",
-      "sudo delivery-ctl install-build-node --fqdn ${aws_instance.build_nodes.1.public_dns} --username chef --installer /home/ec2-user/chefdk-0.17.17-1.el7.x86_64.rpm --password chef --overwrite-registration",
-      "sudo delivery-ctl install-build-node --fqdn ${aws_instance.build_nodes.2.public_dns} --username chef --installer /home/ec2-user/chefdk-0.17.17-1.el7.x86_64.rpm --password chef --overwrite-registration",
-      "sudo chown ec2-user:ec2-user /home/ec2-user/admin.creds",
-    ]
-  }
-  provisioner "local-exec" {
-    command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_automate.public_dns}:~/admin.creds ./"
-  }
-}*/

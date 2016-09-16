@@ -22,6 +22,10 @@ file '/etc/delivery/delivery.pem' do
   content delivery_databag['user_pem']
 end
 
+file '/etc/chef/validation.pem' do
+  content delivery_databag['validator_pem']
+end
+
 chef_ingredient 'delivery' do
   config <<-EOS
 delivery_fqdn "#{node['ec2']['public_hostname']}"

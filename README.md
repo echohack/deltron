@@ -13,23 +13,23 @@ tf_chef_automate is a blueprint for creating your own [Chef Automate](https://ww
 # Variables in terraform.tfvars
 
 - aws_default_region - The region name where your aws instances will live. Choose from one of the following:
-    
+
     us-west-1
-    
+
     us-west-2
-    
+
     us-east-1
-    
+
     eu-west-1
-    
+
     eu-central-1
-    
+
     ap-southeast-1
-    
+
     ap-southeast-2
-    
+
     ap-northeast-1
-    
+
     ap-northeast-2
 
 - aws_instance_type - The size and type of machines you will spin up for all Chef Automate instances.
@@ -43,8 +43,21 @@ This project assumes that your security team has already created VPCs, security_
 - automate_route_table_id - The [Route Table](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html) under which all aws resources will be created.
 
 
+# Delivery validator keys
+
+You must provide your own Delivery validator key.
+
 # Builder keys
 
-You must provide a public/private builder key pair. They must be in `.keys/builder_key` and `.keys/builder_key.pub` for now.
+You no longer need to provide builder keys. Once you've generated a `delivery-validator.pem` using `ssh-keygen` or your other favorite key generator, you can generate the public key in the format needed by the Chef server by using a command like `openssl rsa -in delivery-validator.pem -pubout -out delivery-validator.pub`.
 
-You can generate them using `ssh-keygen -t rsa`, or however you prefer to generate your ssh keys.
+The two files need to be in the `.chef` directory as `delivery-validator.pem` and `delivery-validator.pub`.
+
+TODO: Automate that ^^
+
+# Vendor cookbooks
+
+Before you apply the terraform plan you need to vendor the cookbooks, you can accomplish this by running the following commands from the root of the project:
+
+`berks install`
+`berks vendor vendored-cookbooks/`

@@ -10,3 +10,4 @@ secrets.tfvars
 admin.creds
 vendored-cookbooks/**
 .chef/delivery-validator.pem
+.chef/delivery-validator.pub
