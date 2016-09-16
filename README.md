@@ -4,6 +4,7 @@ tf_chef_automate is a blueprint for creating your own [Chef Automate](https://ww
 
 1. `git clone` the repo.
 1. Remove *.tfvars and *.tfstate from your .gitignore.
+1. Execute `run.sh` from the root of the directory
 1. Create a terraform.tfvars file and include your variables there. See the included example.tfvars.
 1. Create a secrets.tfvars file and include any keys and secrets there. See the included example_secrets.tfvars.
 1. Run `terraform plan -var-file secrets.tfvars`.
@@ -44,4 +45,10 @@ This project assumes that your security team has already created VPCs, security_
 
 # Builder keys
 
-You no longer need to provide builder keys. 
+You no longer need to provide builder keys.
+
+# Run.sh
+
+Because of how Terraform's file interpolation works, files are read pre-execution. To work around this, we
+generate a validator key for the Delivery user in this script. If we can find a way to do this in the TF plan
+in the future, we should do so.
