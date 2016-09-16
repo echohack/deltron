@@ -8,3 +8,6 @@ secrets.tfvars
 *.keys
 *.license
 admin.creds
+vendored-cookbooks/**
+.chef/delivery-validator.pem
+.chef/delivery-validator.pub

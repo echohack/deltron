@@ -4,6 +4,7 @@ tf_chef_automate is a blueprint for creating your own [Chef Automate](https://ww
 
 1. `git clone` the repo.
 1. Remove *.tfvars and *.tfstate from your .gitignore.
+1. Execute `setup.sh` from the root of the directory
 1. Create a terraform.tfvars file and include your variables there. See the included example.tfvars.
 1. Create a secrets.tfvars file and include any keys and secrets there. See the included example_secrets.tfvars.
 1. Run `terraform plan -var-file secrets.tfvars`.
@@ -13,23 +14,23 @@ tf_chef_automate is a blueprint for creating your own [Chef Automate](https://ww
 # Variables in terraform.tfvars
 
 - aws_default_region - The region name where your aws instances will live. Choose from one of the following:
-    
+
     us-west-1
-    
+
     us-west-2
-    
+
     us-east-1
-    
+
     eu-west-1
-    
+
     eu-central-1
-    
+
     ap-southeast-1
-    
+
     ap-southeast-2
-    
+
     ap-northeast-1
-    
+
     ap-northeast-2
 
 - aws_instance_type - The size and type of machines you will spin up for all Chef Automate instances.
@@ -42,9 +43,12 @@ This project assumes that your security team has already created VPCs, security_
 - automate_subnet - The [Subnet](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html) under which all aws resource will be created.
 - automate_route_table_id - The [Route Table](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html) under which all aws resources will be created.
 
-
 # Builder keys
 
-You must provide a public/private builder key pair. They must be in ``.keys/builder_key` and ``.keys/builder_key.pub` for now.
+You no longer need to provide builder keys.
 
-You can generate them using `ssh-keygen -t rsa`, or however you prefer to generate your ssh keys.
+# Setup.sh
+
+Because of how Terraform's file interpolation works, files are read pre-execution. To work around this, we
+generate a validator key for the Delivery user in this script. If we can find a way to do this in the TF plan
+in the future, we should do so.
