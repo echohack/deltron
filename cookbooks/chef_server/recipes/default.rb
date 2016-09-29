@@ -20,5 +20,6 @@ end
 include_recipe 'chef_server::_manage'
 #include_recipe 'chef_server::_reporting'
 include_recipe 'chef_server::_push_server'
+wait_for_server_startup "because"
 include_recipe 'chef_server::_chef_delivery_org_setup'
 include_recipe 'chef_server::_save_secrets'
