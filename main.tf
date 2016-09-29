@@ -221,7 +221,7 @@ data "template_file" "chef_server" {
 resource "aws_instance" "chef_server" {
   connection {
     user     = "${var.aws_ami_user}"
-    key_file = ".keys/${var.aws_key_pair_name}.pem"
+    private_key = "${file(".keys/${var.aws_key_pair_name}.pem")}"
   }
 
   ami             = "${var.aws_ami_rhel}"
@@ -285,7 +285,7 @@ resource "aws_instance" "chef_server" {
 resource "aws_instance" "build_nodes" {
   connection {
     user     = "${var.aws_ami_user}"
-    key_file = ".keys/${var.aws_key_pair_name}.pem"
+    private_key = "${file(".keys/${var.aws_key_pair_name}.pem")}"
   }
 
   ami             = "${var.aws_ami_rhel}"
@@ -335,7 +335,7 @@ data "template_file" "delivery_validator" {
 resource "aws_instance" "chef_automate" {
   connection {
     user     = "${var.aws_ami_user}"
-    key_file = ".keys/${var.aws_key_pair_name}.pem"
+    private_key = "${file(".keys/${var.aws_key_pair_name}.pem")}"
   }
 
   ami             = "${var.aws_ami_rhel}"
@@ -385,8 +385,8 @@ resource "aws_instance" "chef_automate" {
     run_list = ["chef_automate::default"]
     node_name = "${aws_instance.chef_automate.public_dns}"
     server_url = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
-    validation_client_name = "delivery-validator"
-    validation_key = "${data.template_file.delivery_validator.rendered}"
+    user_name = "delivery-validator"
+    user_key = "${data.template_file.delivery_validator.rendered}"
   }
   provisioner "local-exec" {
     command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_automate.public_dns}:~/admin.creds ./"
