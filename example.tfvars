@@ -8,4 +8,3 @@ automate_instance_id = "myface_d3e1d124" # unique identifier for this instance o
 
 automate_vpc = "vpc-34e92e01"
 automate_subnet = "subnet-3cd236e4"
-automate_route_table_id = "rtb-f9811ab9"

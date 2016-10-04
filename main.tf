@@ -4,16 +4,6 @@ provider "aws" {
   region     = "${var.aws_default_region}"
 }
 
-resource "aws_main_route_table_association" "a" {
-  vpc_id         = "${var.automate_vpc}"
-  route_table_id = "${var.automate_route_table_id}"
-}
-
-resource "aws_route_table_association" "automate_public_routing" {
-  subnet_id      = "${var.automate_subnet}"
-  route_table_id = "${var.automate_route_table_id}"
-}
-
 resource "aws_security_group" "chef_server" {
   name        = "chef_server_${var.automate_instance_id}"
   description = "Terraform Automate Chef Server"

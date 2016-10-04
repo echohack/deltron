@@ -17,8 +17,6 @@ variable "automate_vpc" {}
 
 variable "automate_subnet" {}
 
-variable "automate_route_table_id" {}
-
 variable "automate_tag" { default = "terraform_automate" }
 
 # unique identifier for this instance of Chef Automate
