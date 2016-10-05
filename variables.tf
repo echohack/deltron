@@ -33,6 +33,10 @@ variable "aws_ami_user" {
   default = "ec2-user"
 }
 
+variable "tag_dept" {}
+
+variable "tag_contact" {}
+
 variable "aws_ami_rhel" { default = "ami-a3fa16c3" } #rhel72 US-west2
 # rhel 72 US-east-1 = ami-85241def
 

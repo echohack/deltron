@@ -34,31 +34,11 @@ resource "aws_security_group_rule" "ingress_chef_server_allow_80_tcp" {
   security_group_id = "${aws_security_group.chef_server.id}"
 }
 
-# HTTPS (nbinx)
+# HTTPS (nginx)
 resource "aws_security_group_rule" "ingress_chef_server_allow_443_tcp" {
   type = "ingress"
   from_port = 443
   to_port = 443
-  protocol = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.chef_server.id}"
-}
-
-# oc_bifrost
-resource "aws_security_group_rule" "ingress_chef_server_allow_9463_tcp" {
-  type = "ingress"
-  from_port = 9463
-  to_port = 9463
-  protocol = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-  security_group_id = "${aws_security_group.chef_server.id}"
-}
-
-# oc_bifrost (nginx LB)
-resource "aws_security_group_rule" "ingress_chef_server_allow_9683_tcp" {
-  type = "ingress"
-  from_port = 9683
-  to_port = 9683
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.chef_server.id}"
@@ -203,10 +183,10 @@ resource "aws_security_group_rule" "ingress_build_nodes_allow_all_chef_server" {
   source_security_group_id = "${aws_security_group.chef_automate.id}"
   security_group_id = "${aws_security_group.build_nodes.id}"
 }
-
+/*
 data "template_file" "chef_server" {
   template = "${file("./chef_server.tpl")}"
-}
+}*/
 
 resource "aws_instance" "chef_server" {
   connection {
@@ -231,9 +211,8 @@ resource "aws_instance" "chef_server" {
 
   tags {
     Name      = "${format("${var.automate_tag}_chef_server_%02d_${var.automate_instance_id}", count.index + 1)}"
-    X-Project = "CSE"
-    X-Dept    = "success"
-    X-Contact = "adufour"
+    X-Dept    = "${var.tag_dept}"
+    X-Contact = "${var.tag_contact}"
   }
 
   # Set hostname in separate connection.
@@ -284,9 +263,8 @@ resource "aws_instance" "chef_automate" {
 
   tags {
     Name      = "${format("${var.automate_tag}_chef_automate_%02d_${var.automate_instance_id}", count.index + 1)}"
-    X-Project = "CSE"
-    X-Dept    = "success"
-    X-Contact = "adufour"
+    X-Dept    = "${var.tag_dept}"
+    X-Contact = "${var.tag_contact}"
   }
 
   # Set hostname in separate connection.
@@ -345,16 +323,14 @@ resource "aws_instance" "build_nodes" {
 
   root_block_device {
     delete_on_termination = true
-    volume_size = 20
-    volume_type = "io1"
-    iops        = 1000
+    volume_size = 100
+    volume_type = "gp2"
   }
 
   tags {
     Name      = "${format("${var.automate_tag}_build_node_%02d_${var.automate_instance_id}", count.index + 1)}"
-    X-Project = "CSE"
-    X-Dept    = "success"
-    X-Contact = "adufour"
+    X-Dept    = "${var.tag_dept}"
+    X-Contact = "${var.tag_contact}"
   }
 
     provisioner "chef"  {
