@@ -30,15 +30,14 @@ variable "aws_instance_type" {
   default = "m4.xlarge"
 }
 variable "aws_ami_user" {
-  default = "ec2-user"
+  default = "centos"
 }
 
 variable "tag_dept" {}
 
 variable "tag_contact" {}
 
-variable "aws_ami_rhel" { default = "ami-a3fa16c3" } #rhel72 US-west2
-# rhel 72 US-east-1 = ami-85241def
+variable "aws_ami_rhel" { default = "ami-cd3ee2ad" }
 
 # need to update these for rhel7
 variable "centos-6-amis" {

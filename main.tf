@@ -11,6 +11,8 @@ resource "aws_security_group" "chef_server" {
 
   tags {
     Name = "${var.automate_tag}_chef_server_security_group"
+    X-Dept    = "${var.tag_dept}"
+    X-Contact = "${var.tag_contact}"
   }
 }
 
@@ -81,6 +83,8 @@ resource "aws_security_group" "chef_automate" {
 
   tags {
     Name = "${var.automate_tag}_chef_automate_security_group"
+    X-Dept    = "${var.tag_dept}"
+    X-Contact = "${var.tag_contact}"
   }
 }
 
@@ -151,6 +155,8 @@ resource "aws_security_group" "build_nodes" {
 
   tags {
     Name = "${var.automate_tag}_build_nodes_security_group"
+    X-Dept    = "${var.tag_dept}"
+    X-Contact = "${var.tag_contact}"
   }
 }
 
@@ -183,11 +189,66 @@ resource "aws_security_group_rule" "ingress_build_nodes_allow_all_chef_server" {
   source_security_group_id = "${aws_security_group.chef_automate.id}"
   security_group_id = "${aws_security_group.build_nodes.id}"
 }
-/*
-data "template_file" "chef_server" {
-  template = "${file("./chef_server.tpl")}"
-}*/
 
+# Create an IAM role to allow servers to mount a data volume
+resource "aws_iam_role" "mount_data_volume_role" {
+    name = "${format("mount_data_volume_role_${var.automate_tag}_${var.automate_instance_id}")}"
+    assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "mount_data_volume_policy" {
+    name = "${format("mount_data_volume_policy${var.automate_tag}_${var.automate_instance_id}")}"
+    role = "${aws_iam_role.mount_data_volume_role.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1475698153000",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AttachVolume",
+                "ec2:CreateSnapshot",
+                "ec2:CreateTags",
+                "ec2:CreateVolume",
+                "ec2:DeleteSnapshot",
+                "ec2:DeleteTags",
+                "ec2:DeleteVolume",
+                "ec2:DetachVolume",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeVolumeStatus",
+                "ec2:DescribeVolumeAttribute"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "automate_instance_profile" {
+  name = "automate_instance_profile"
+  name = "${format("automate_instance_profile_${var.automate_tag}_${var.automate_instance_id}")}"
+  roles = ["${aws_iam_role.mount_data_volume_role.name}"]
+}
+
+# Chef Server
 resource "aws_instance" "chef_server" {
   connection {
     user     = "${var.aws_ami_user}"
@@ -199,14 +260,15 @@ resource "aws_instance" "chef_server" {
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.chef_server.id}"]
+  iam_instance_profile = "${aws_iam_instance_profile.automate_instance_profile.id}"
 
   ebs_optimized   = true
 
   root_block_device {
     delete_on_termination = true
-    volume_size = 100
+    volume_size = 20
     volume_type = "io1"
-    iops        = 5000
+    iops = 1000
   }
 
   tags {
@@ -220,13 +282,24 @@ resource "aws_instance" "chef_server" {
   provisioner "remote-exec" {
     inline = ["sudo hostnamectl set-hostname ${aws_instance.chef_server.public_dns}"]
   }
+
+  # mount the EBS volume
+  provisioner "file" {
+    source = "mount_data_volume"
+    destination = "/tmp/mount_data_volume"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo bash -ex /tmp/mount_data_volume"
+    ]
+  }
   provisioner "file" {
     source = ".chef/delivery-validator.pub"
     destination = "/tmp/pre-delivery-validator.pub"
   }
   provisioner "remote-exec" {
     inline = [
-      "curl -O https://raw.githubusercontent.com/stephenlauck/chef-services/ad/recipe_refactor/files/default/installer.sh && sudo bash ./installer.sh -c ${aws_instance.chef_server.public_dns}",
+      "curl -O https://raw.githubusercontent.com/stephenlauck/chef-services/ad/recipe_refactor/files/default/installer.sh && sudo SVWAIT=30 bash ./installer.sh -c ${aws_instance.chef_server.public_dns}",
       "sudo chef-server-ctl add-client-key delivery delivery-validator --public-key-path /tmp/pre-delivery-validator.pub"
     ]
   }
@@ -252,13 +325,14 @@ resource "aws_instance" "chef_automate" {
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.chef_automate.id}"]
+  iam_instance_profile = "${aws_iam_instance_profile.automate_instance_profile.id}"
   ebs_optimized   = true
 
   root_block_device {
     delete_on_termination = true
-    volume_size = 100
+    volume_size = 20
     volume_type = "io1"
-    iops        = 5000
+    iops        = 1000
   }
 
   tags {
@@ -275,6 +349,18 @@ resource "aws_instance" "chef_automate" {
       "sudo mkdir /etc/chef/"
     ]
   }
+
+  # mount the EBS volume
+  provisioner "file" {
+    source = "mount_data_volume"
+    destination = "/tmp/mount_data_volume"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo bash -ex /tmp/mount_data_volume"
+    ]
+  }
+
   provisioner "file" {
     source      = "chef_automate.license"
     destination = "~/chef_automate.license"
