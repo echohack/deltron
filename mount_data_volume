@@ -10,47 +10,13 @@ REGION=${AVAILABILITY_ZONE%?}
 setenforce 0
 
 # install awscli - assuming role is set
-yum install -y lvm2 xfsprogs sg3_utils python-setuptools git tuned sysstat
+yum install -y lvm2 xfsprogs git tuned sysstat #sg3_utils python-setuptools
 
 # Set performance characteristics hopefully for faster install too
 tuned-adm profile virtual-guest
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
 echo never > /sys/kernel/mm/transparent_hugepage/defrag
 /bin/systemctl start sysstat.service
-
-easy_install pip
-pip install awscli
-
-# Create and attach the EBS volume
-CV_OUTPUT=$(aws ec2 create-volume --region $REGION --size 100 --availability-zone $AVAILABILITY_ZONE --volume-type io1 --iops 5000)
-VOLUME_ID=$(echo $CV_OUTPUT | python -c 'import sys, json; print json.load(sys.stdin)["VolumeId"]')
-aws ec2 describe-volume-status --region $REGION --volume-ids $VOLUME_ID
-aws ec2 describe-volumes --region $REGION --volume-ids $VOLUME_ID
-
-# Wait for volume to enter an "available" state
-i=0
-while true; do
-  sleep 2
-  DV_OUTPUT=$(aws ec2 describe-volumes --region $REGION --volume-ids $VOLUME_ID)
-  VOLUME_STATE=$(echo $DV_OUTPUT | python -c 'import sys, json; print json.load(sys.stdin)["Volumes"][0]["State"]')
-
-  if [ $VOLUME_STATE == "available" ]; then
-    echo "Volume $VOLUME_ID is available!"
-    break
-  fi
-
-  i=$[$i+1]
-  if [$i -eq 60]; then
-    echo "Giving up after 120 seconds.  Volume state is still $VOLUME_STATE"
-    exit 1
-  fi
-done
-
-# Tag and attach volume
-aws ec2 create-tags --region $REGION --resources $VOLUME_ID --tags Key=Name,Value=chef-data_${INSTANCE_ID} Key=CreatedBy,Value=tf_chef_automate
-aws ec2 attach-volume --region $REGION --volume-id $VOLUME_ID --instance-id $INSTANCE_ID --device /dev/sdb
-# give devicemapper a chance to settle
-sleep 5
 
 # Create LVM LV /dev/chef-vg/chef-lv
 pvcreate /dev/xvdb

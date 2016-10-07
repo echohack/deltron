@@ -190,64 +190,6 @@ resource "aws_security_group_rule" "ingress_build_nodes_allow_all_chef_server" {
   security_group_id = "${aws_security_group.build_nodes.id}"
 }
 
-# Create an IAM role to allow servers to mount a data volume
-resource "aws_iam_role" "mount_data_volume_role" {
-    name = "${format("mount_data_volume_role_${var.automate_tag}_${var.automate_instance_id}")}"
-    assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy" "mount_data_volume_policy" {
-    name = "${format("mount_data_volume_policy${var.automate_tag}_${var.automate_instance_id}")}"
-    role = "${aws_iam_role.mount_data_volume_role.id}"
-    policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Stmt1475698153000",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:AttachVolume",
-                "ec2:CreateSnapshot",
-                "ec2:CreateTags",
-                "ec2:CreateVolume",
-                "ec2:DeleteSnapshot",
-                "ec2:DeleteTags",
-                "ec2:DeleteVolume",
-                "ec2:DetachVolume",
-                "ec2:DescribeVolumes",
-                "ec2:DescribeVolumeStatus",
-                "ec2:DescribeVolumeAttribute"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_iam_instance_profile" "automate_instance_profile" {
-  name = "automate_instance_profile"
-  name = "${format("automate_instance_profile_${var.automate_tag}_${var.automate_instance_id}")}"
-  roles = ["${aws_iam_role.mount_data_volume_role.name}"]
-}
-
 # Chef Server
 resource "aws_instance" "chef_server" {
   connection {
@@ -260,15 +202,21 @@ resource "aws_instance" "chef_server" {
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.chef_server.id}"]
-  iam_instance_profile = "${aws_iam_instance_profile.automate_instance_profile.id}"
-
   ebs_optimized   = true
 
   root_block_device {
     delete_on_termination = true
     volume_size = 20
+    volume_type = "gp2"
+    #iops = 1000
+  }
+
+  ebs_block_device {
+    device_name = "/dev/sdb"
     volume_type = "io1"
-    iops = 1000
+    iops = 5000 # iops = volume_size * 50
+    volume_size = 100
+    delete_on_termination = true
   }
 
   tags {
@@ -325,14 +273,21 @@ resource "aws_instance" "chef_automate" {
   key_name        = "${var.aws_key_pair_name}"
   subnet_id       = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.chef_automate.id}"]
-  iam_instance_profile = "${aws_iam_instance_profile.automate_instance_profile.id}"
   ebs_optimized   = true
 
   root_block_device {
     delete_on_termination = true
     volume_size = 20
+    volume_type = "gp2"
+    #iops        = 1000
+  }
+
+  ebs_block_device {
+    device_name = "/dev/sdb"
     volume_type = "io1"
-    iops        = 1000
+    iops = 5000 # iops = volume_size * 50
+    volume_size = 100
+    delete_on_termination = true
   }
 
   tags {
