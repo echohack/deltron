@@ -37,19 +37,9 @@ variable "tag_dept" {}
 
 variable "tag_contact" {}
 
-variable "aws_ami_rhel" { default = "ami-cd3ee2ad" }
+# High performance CentOS 7.2 AMIs published here:
+# us-east-1: ami-0d206e1a
+# us-west-1: ami-c7b3faa7
+# us-west-2: ami-6c2ff70c
 
-# need to update these for rhel7
-variable "centos-6-amis" {
-  default = {
-    us-west-1      = "ami-45844401"
-    us-west-2      = "ami-1255b321"
-    us-east-1      = "ami-57cd8732"
-    eu-west-1      = "ami-2b7f4c5c"
-    eu-central-1   = "ami-2a868b37"
-    ap-southeast-1 = "ami-44617116"
-    ap-southeast-2 = "ami-7b81ca41"
-    ap-northeast-1 = "ami-82640282"
-    ap-northeast-2 = "ami-82640282"
-  }
-}
+variable "aws_ami_rhel" { default = "ami-6c2ff70c" }
