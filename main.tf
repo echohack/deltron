@@ -393,6 +393,6 @@ resource "aws_instance" "build_nodes" {
       server_url = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
       user_name = "delivery-validator"
       user_key = "${data.template_file.delivery_validator.rendered}"
-      client_options = ["trusted_certs_dir = '/etc/chef/trusted_certs'"]
+      client_options = ["trusted_certs_dir '/etc/chef/trusted_certs'"]
     }
 }
