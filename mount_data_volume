@@ -1,0 +1,31 @@
+#!/bin/bash -ex
+
+# metadata
+CURL_META_DATA="curl --retry 3 --silent --show-error --fail -L http://169.254.169.254/latest"
+INSTANCE_ID=$($CURL_META_DATA/meta-data/instance-id)
+AVAILABILITY_ZONE=$($CURL_META_DATA/meta-data/placement/availability-zone)
+REGION=${AVAILABILITY_ZONE%?}
+
+# die selinux die
+setenforce 0
+
+# install awscli - assuming role is set
+yum install -y lvm2 xfsprogs git tuned sysstat #sg3_utils python-setuptools
+
+# Set performance characteristics hopefully for faster install too
+tuned-adm profile virtual-guest
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+echo never > /sys/kernel/mm/transparent_hugepage/defrag
+/bin/systemctl start sysstat.service
+
+# Create LVM LV /dev/chef-vg/chef-lv
+pvcreate /dev/xvdb
+vgcreate chef-vg /dev/xvdb
+lvcreate -n chef-lv -l 80%VG chef-vg
+
+# create xfs
+mkfs.xfs /dev/chef-vg/chef-lv
+
+# mount
+mkdir -p /var/opt
+mount /dev/chef-vg/chef-lv /var/opt

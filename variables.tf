@@ -17,8 +17,6 @@ variable "automate_vpc" {}
 
 variable "automate_subnet" {}
 
-variable "automate_route_table_id" {}
-
 variable "automate_tag" { default = "terraform_automate" }
 
 # unique identifier for this instance of Chef Automate
@@ -32,23 +30,16 @@ variable "aws_instance_type" {
   default = "m4.xlarge"
 }
 variable "aws_ami_user" {
-  default = "ec2-user"
+  default = "centos"
 }
 
-variable "aws_ami_rhel" { default = "ami-a3fa16c3" } #rhel72 US-west2
-# rhel 72 US-east-1 = ami-85241def
+variable "tag_dept" {}
 
-# need to update these for rhel7
-variable "centos-6-amis" {
-  default = {
-    us-west-1      = "ami-45844401"
-    us-west-2      = "ami-1255b321"
-    us-east-1      = "ami-57cd8732"
-    eu-west-1      = "ami-2b7f4c5c"
-    eu-central-1   = "ami-2a868b37"
-    ap-southeast-1 = "ami-44617116"
-    ap-southeast-2 = "ami-7b81ca41"
-    ap-northeast-1 = "ami-82640282"
-    ap-northeast-2 = "ami-82640282"
-  }
-}
+variable "tag_contact" {}
+
+# High performance CentOS 7.2 AMIs published here:
+# us-east-1: ami-0d206e1a
+# us-west-1: ami-c7b3faa7
+# us-west-2: ami-6c2ff70c
+
+variable "aws_ami_rhel" { default = "ami-6c2ff70c" }
