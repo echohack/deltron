@@ -38,8 +38,8 @@ variable "tag_dept" {}
 variable "tag_contact" {}
 
 # High performance CentOS 7.2 AMIs published here:
-# us-east-1: ami-0d206e1a
-# us-west-1: ami-c7b3faa7
-# us-west-2: ami-6c2ff70c
+# us-east-1: ami-a2f1aeb5
+# us-west-1: ami-4895de28
+# us-west-2: ami-e6963186
 
-variable "aws_ami_rhel" { default = "ami-6c2ff70c" }
+variable "aws_ami_rhel" { default = "ami-e6963186" }
