@@ -1,4 +1,4 @@
-tf_chef_automate is a blueprint for creating your own [Chef Automate](https://www.chef.io/automate/) cluster in AWS, using Terraform.
+_Deltron_ is a blueprint for creating your own [Chef Automate](https://www.chef.io/automate/) cluster in AWS, using Terraform.
 
 # Quickstart
 
