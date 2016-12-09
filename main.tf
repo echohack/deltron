@@ -253,15 +253,6 @@ resource "aws_instance" "chef_server" {
   }
 }
 
-# template to delay reading of validator key
-data "template_file" "delivery_validator" {
-  template = "${delivery_validator}"
-  vars {
-    delivery_validator = "${file(".chef/delivery-validator.pem")}"
-  }
-  depends_on = ["aws_instance.chef_server"]
-}
-
 resource "aws_instance" "chef_automate" {
   connection {
     user     = "${var.aws_ami_user}"
@@ -339,7 +330,7 @@ resource "aws_instance" "chef_automate" {
     node_name = "${aws_instance.chef_automate.public_dns}"
     server_url = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
     user_name = "delivery-validator"
-    user_key = "${data.template_file.delivery_validator.rendered}"
+    user_key = "${file(".chef/delivery-validator.pem")}"
     client_options = ["trusted_certs_dir = '/etc/chef/trusted_certs'"]
   }
   provisioner "local-exec" {
@@ -392,7 +383,35 @@ resource "aws_instance" "build_nodes" {
       run_list = ["chef-services::install_build_nodes"]
       server_url = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
       user_name = "delivery-validator"
-      user_key = "${data.template_file.delivery_validator.rendered}"
+      user_key = "${file(".chef/delivery-validator.pem")}"
       client_options = ["trusted_certs_dir '/etc/chef/trusted_certs'"]
     }
+}
+
+# Write out a local knife.rb in the local .chef directory for easy knifing
+data "template_file" "knife_rb" {
+  template = "${file("knife_rb.tpl")}"
+
+  vars {
+    chef_server = "${aws_instance.chef_server.public_dns}"
+  }
+
+  depends_on = ["aws_instance.chef_server"]
+}
+
+resource "null_resource" "write_knife_rb" {
+  triggers {
+    template = "${data.template_file.knife_rb.rendered}"
+  }
+
+  provisioner "local-exec" {
+    command = "echo \"${data.template_file.knife_rb.rendered}\" > .chef/knife.rb"
+  }
+
+  provisioner "local-exec" {
+    command = "knife ssl fetch"
+  }
+
+
+  depends_on = ["aws_instance.chef_server"]
 }

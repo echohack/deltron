@@ -11,3 +11,6 @@ secrets.tfvars
 vendored-cookbooks/**
 .chef/delivery-validator.pem
 .chef/delivery-validator.pub
+.chef/knife.rb
+.chef/trusted_certs/
+
