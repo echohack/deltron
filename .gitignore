@@ -9,5 +9,4 @@ secrets.tfvars
 *.license
 *.creds
 vendored-cookbooks/**
-.chef/delivery-validator.pem
-.chef/delivery-validator.pub
+.chef/delivery-validator.*
