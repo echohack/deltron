@@ -18,7 +18,7 @@ data "aws_subnet_ids" "automate" { vpc_id = "${var.automate_vpc}" }
 variable "aws_build_node_instance_type" { default = "t2.medium" }
 variable "aws_instance_type" { default = "m4.xlarge" }
 variable "aws_ami_user" { default = "centos" }
-variable "aws_key_pair_name" { default = "irving@getchef.com" }
+variable "aws_key_pair_name" { default = "irving" }
 variable "aws_key_pair_file" { default = "~/.ssh/id_rsa" }
 
 # Tagging
