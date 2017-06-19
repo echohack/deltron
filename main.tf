@@ -255,10 +255,10 @@ resource "aws_instance" "chef_server" {
 
 # template to delay reading of validator key
 data "template_file" "delivery_validator" {
-  template = "${delivery_validator}"
   vars {
     delivery_validator = "${file(".chef/delivery-validator.pem")}"
   }
+  template = "$${delivery_validator}"
   depends_on = ["aws_instance.chef_server"]
 }
 
