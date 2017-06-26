@@ -12,6 +12,8 @@ resource "random_id" "automate_instance_id" { byte_length = 4 }
 variable "aws_region" { default = "us-west-2" }
 variable "aws_profile" { default = "default" }
 variable "automate_vpc" { default = "vpc-fa58989d" } # jhud-vpc in success-aws
+variable "automate_instance_id" {}
+variable "automate_subnet" {}
 data "aws_subnet_ids" "automate" { vpc_id = "${var.automate_vpc}" }
 
 # unique identifier for this instance of Chef Automate

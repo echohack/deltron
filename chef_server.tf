@@ -61,10 +61,16 @@ resource "aws_instance" "chef_server" {
     source = ".chef/delivery-validator.pub"
     destination = "/tmp/pre-delivery-validator.pub"
   }
+
+  provisioner "file" {
+    source = "files/installer.sh"
+    destination = "/tmp/installer.sh"
+  }
+
   provisioner "remote-exec" {
     inline = [
-      "curl -L http://chef-installer.chameleon-development.ca -o installer.sh && sudo SVWAIT=30 bash ./installer.sh -c ${aws_instance.chef_server.public_dns}",
-      "sudo chef-server-ctl add-client-key delivery delivery-validator --public-key-path /tmp/pre-delivery-validator.pub"
+      "sudo SVWAIT=30 bash /tmp/installer.sh -c ${aws_instance.chef_server.public_dns}",
+      "sudo chef-server-ctl add-client-key delivery delivery-validator --public-key-path /tmp/pre-delivery-validator.pub",
     ]
   }
 }
