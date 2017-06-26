@@ -124,6 +124,46 @@ resource "aws_security_group_rule" "ingress_chef_automate_allow_8989_tcp" {
   security_group_id = "${aws_security_group.chef_automate.id}"
 }
 
+# Allow etcd communication
+resource "aws_security_group_rule" "ingress_chef_automate_allow_2379_tcp" {
+  type = "ingress"
+  from_port = 2379
+  to_port = 2380
+  protocol = "tcp"
+  security_group_id = "${aws_security_group.chef_automate.id}"
+  source_security_group_id = "${aws_security_group.chef_automate.id}"
+}
+
+# Allow elasticsearch clients
+resource "aws_security_group_rule" "ingress_chef_automate_allow_9200_to_9400_tcp" {
+  type = "ingress"
+  from_port = 9200
+  to_port = 9400
+  protocol = "tcp"
+  security_group_id = "${aws_security_group.chef_automate.id}"
+  source_security_group_id = "${aws_security_group.chef_automate.id}"
+}
+
+# Allow postgres connections
+resource "aws_security_group_rule" "ingress_chef_automate_allow_5432_tcp" {
+  type = "ingress"
+  from_port = 5432
+  to_port = 5432
+  protocol = "tcp"
+  security_group_id = "${aws_security_group.chef_automate.id}"
+  source_security_group_id = "${aws_security_group.chef_automate.id}"
+}
+
+# Allow leaderel connections 
+resource "aws_security_group_rule" "ingress_chef_automate_allow_7331_tcp" {
+  type = "ingress"
+  from_port = 7331
+  to_port = 7331
+  protocol = "tcp"
+  security_group_id = "${aws_security_group.chef_automate.id}"
+  source_security_group_id = "${aws_security_group.chef_automate.id}"
+}
+
 # Allow all Chef Server
 resource "aws_security_group_rule" "ingress_chef_automate_allow_all_chef_server" {
   type = "ingress"

@@ -64,11 +64,12 @@ resource "aws_instance" "chef_automate" {
     attributes_json = <<-EOF
     {
         "tags": "automate_server",
+        "peers": ${jsonencode(formatlist("http://%s:9200", aws_instance.es_backend.*.public_dns))},
         "chef_automate": {
-            "fqdn": "${aws_instance.chef_automate.public_dns}"
+          "fqdn": "${aws_instance.chef_automate.public_dns}"
         },
         "chef_server": {
-            "fqdn": "${aws_instance.chef_server.public_dns}"
+          "fqdn": "${aws_instance.chef_server.public_dns}"
         }
     }
     EOF
@@ -80,8 +81,5 @@ resource "aws_instance" "chef_automate" {
     user_name = "delivery-validator"
     user_key = "${data.template_file.delivery_validator.rendered}"
     client_options = ["trusted_certs_dir = '/etc/chef/trusted_certs'"]
-  }
-  provisioner "local-exec" {
-    command = "scp -oStrictHostKeyChecking=no -i .keys/${var.aws_key_pair_name}.pem ${var.aws_ami_user}@${aws_instance.chef_automate.public_dns}:/tmp/test.creds ./"
   }
 }
