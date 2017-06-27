@@ -1,6 +1,5 @@
-# Minimum version and future backend configuration
 terraform {
-  required_version = "0.9.6"
+  required_version = "0.9.9"
 }
 
 # Automate customization
