@@ -1,4 +1,3 @@
-
 #
 # resource "aws_instance" "build_nodes" {
 #   connection {
@@ -21,7 +20,7 @@
 #   }
 #
 #   tags {
-#     Name      = "${format("${var.automate_tag}_build_node_%02d_${var.automate_instance_id}", count.index + 1)}"
+#     Name      = "${format("${var.automate_tag}_build_node_%02d_${random_id.automate_instance_id.hex}", count.index + 1)}"
 #     X-Dept    = "${var.tag_dept}"
 #     X-Contact = "${var.tag_contact}"
 #   }
@@ -48,3 +47,4 @@
 #       client_options = ["trusted_certs_dir '/etc/chef/trusted_certs'"]
 #     }
 # }
+
