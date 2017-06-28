@@ -60,9 +60,17 @@ variable "automate_es_recipe" {
 }
 
 # Tagging
-variable "automate_tag" { default = "terraform_automate" }
-variable "tag_dept" { default = "SCE" }
-variable "tag_contact" { default = "irving" }
+variable "automate_tag" {
+  default = "terraform_automate"
+}
+
+variable "tag_dept" {
+  default = "SCE"
+}
+
+variable "tag_contact" {
+  default = "irving"
+}
 
 # Basic AWS info
 provider "aws" {
