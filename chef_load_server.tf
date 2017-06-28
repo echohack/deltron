@@ -1,3 +1,12 @@
+data "template_file" "chef_load_conf" {
+  template = "${file("./chef_load.conf.tpl")}"
+
+  vars {
+    chef_server_fqdn     = "${aws_instance.chef_server.public_dns}"
+    automate_server_fqdn = "${aws_instance.chef_automate.public_dns}"
+  }
+}
+
 resource "aws_instance" "chef_load" {
   connection {
     user        = "${var.aws_ami_user}"
@@ -50,22 +59,13 @@ resource "aws_instance" "chef_load" {
   }
 
   provisioner "file" {
-    source      = "chef_load.conf.tpl"
-    destination = "/home/centos/chef_load.conf"
-  }
-
-  data "template_file" "chef_load.conf" {
-    template = "${file("${path.module}/chef_load.conf.tpl")}"
-
-    vars {
-      chef_server_fqdn     = "${aws_instance.chef_server.public_dns}"
-      automate_server_fqdn = "${aws_instance.chef_automate.public_dns}"
-    }
+    content     = "${data.template_file.delivery_validator.rendered}"
+    destination = "/home/centos/delivery-validator.pem"
   }
 
   provisioner "file" {
-    content     = "${data.template_file.delivery_validator.rendered}"
-    destination = "/home/centos/delivery-validator.pem"
+    content = "${data.template_file.chef_load_conf.rendered}"
+    destination = "/home/centos/chef_load.conf"
   }
 
   provisioner "remote-exec" {
@@ -76,6 +76,7 @@ resource "aws_instance" "chef_load" {
       "wget https://github.com/chef/chef-load/releases/download/v1.0.0/chef-load_1.0.0_Linux_64bit -O chef-load-1.0.0",
       "chmod +x chef-load-1.0.0",
       "chmod 600 delivery-validator.pem",
+      "knife ssl fetch https://${aws_instance.chef_server.public_dns}",
     ]
   }
 }
