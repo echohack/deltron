@@ -36,6 +36,12 @@ resource "aws_instance" "es_backend" {
     attributes_json = <<-EOF
       {
         "tags": "es_backend",
+        "aws": {
+          "region": "${var.aws_region}",
+        },
+        "elasticsearch": {
+          "cluster_name": "elasticsearch_#{random_id.automate_instance_id.hex}"
+        },
         "search_bootstrap": "${aws_instance.es_backend.0.public_dns}",
         "chef_server": {
             "fqdn": "${aws_instance.chef_server.public_dns}"

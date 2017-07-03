@@ -91,7 +91,7 @@ source 'https://supermarket.chef.io'
 
 cookbook 'chef-services', git: 'https://github.com/itmustbejj/chef-services.git', branch: 'deltron-changes'
 cookbook 'chef-ingredient', git: 'https://github.com/itmustbejj/chef-ingredient', branch: 'debug-branch'
-cookbook 'elasticsearch', git: 'https://github.com/elastic/cookbook-elasticsearch', branch: '2.x.x'
+cookbook 'elasticsearch', git: 'https://github.com/itmustbejj/cookbook-elasticsearch', branch: '2.x.x'
 cookbook 'java'
 cookbook 'sysctl'
 cookbook 'backend_search_cluster', git: 'https://github.com/itmustbejj/backend_search_cluster'
