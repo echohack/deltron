@@ -52,4 +52,11 @@ resource "aws_instance" "es_backend" {
     user_key                = "${data.template_file.delivery_validator.rendered}"
     client_options          = ["trusted_certs_dir '/etc/chef/trusted_certs'"]
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "cd && wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64",
+      "chmod +x jq-linux64",
+    ]
+  }
 }
