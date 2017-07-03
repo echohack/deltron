@@ -5,6 +5,7 @@ resource "aws_instance" "es_backend" {
   }
 
   ami                    = "${data.aws_ami.centos.id}"
+  iam_instance_profile        = "${aws_iam_instance_profile.cloudwatch_metrics_instance_profile.id}"
   instance_type          = "${var.aws_instance_type}"
   key_name               = "${var.aws_key_pair_name}"
   subnet_id              = "${var.automate_subnet}"
@@ -50,5 +51,12 @@ resource "aws_instance" "es_backend" {
     user_name               = "delivery-validator"
     user_key                = "${data.template_file.delivery_validator.rendered}"
     client_options          = ["trusted_certs_dir '/etc/chef/trusted_certs'"]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "cd && wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64",
+      "chmod +x jq-linux64",
+    ]
   }
 }
