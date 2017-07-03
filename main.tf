@@ -93,3 +93,50 @@ data "aws_ami" "centos" {
 
   owners = ["446539779517"]
 }
+
+resource "aws_iam_role" "cloudwatch_metrics_role" {
+  name = "cloudwatch_metrics_role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "cloudwatch_metrics_policy" {
+  name = "cloudwatch_metrics_policy"
+  role = "${aws_iam_role.cloudwatch_metrics_role.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1499048077909",
+      "Action": [
+        "cloudwatch:ListMetrics",
+        "cloudwatch:PutMetricData"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "cloudwatch_metrics_instance_profile" {
+  name = "cloudwatch_metrics_instance_profile"
+  role = "cloudwatch_metrics_role"
+}
