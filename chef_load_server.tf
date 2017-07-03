@@ -68,6 +68,11 @@ resource "aws_instance" "chef_load" {
     destination = "/home/centos/chef_load.conf"
   }
 
+  provisioner "file" {
+    source = "./files/chef_load.service"
+    destination = "/etc/systemd/system/chef_load.service"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "sudo bash -ex /tmp/mount_data_volume",
@@ -79,4 +84,6 @@ resource "aws_instance" "chef_load" {
       "knife ssl fetch https://${aws_instance.chef_server.public_dns}",
     ]
   }
+
+  
 }
