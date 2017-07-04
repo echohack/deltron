@@ -40,7 +40,7 @@ resource "aws_instance" "es_backend" {
           "region": "${var.aws_region}"
         },
         "elasticsearch": {
-          "cluster_name": "elasticsearch_#{random_id.automate_instance_id.hex}"
+          "cluster_name": "elasticsearch_${random_id.automate_instance_id.hex}"
         },
         "search_bootstrap": "${aws_instance.es_backend.0.public_dns}",
         "chef_server": {
