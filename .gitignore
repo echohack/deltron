@@ -10,3 +10,4 @@ secrets.tfvars
 *.creds
 vendored-cookbooks/**
 .chef/delivery-validator.*
+.chef/delivery-validator-*.*

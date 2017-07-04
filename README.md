@@ -10,6 +10,7 @@ Note: there are still bugs as this is under heavy development
 export TF_VAR_aws_region="us-west-2"
 export TF_VAR_aws_profile="default"
 export TF_VAR_automate_vpc="vpc-fa58989d"
+export TF_VAR_automate_subnet="subnet-63c62b04"
 export TF_VAR_aws_key_pair_name="mykeypair"
 export TF_VAR_aws_key_pair_file="~/.ssh/id_rsa"
 export TF_VAR_tag_dept="MyDepartment"
