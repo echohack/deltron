@@ -126,7 +126,8 @@ resource "aws_iam_role_policy" "cloudwatch_metrics_policy" {
       "Sid": "Stmt1499048077909",
       "Action": [
         "cloudwatch:ListMetrics",
-        "cloudwatch:PutMetricData"
+        "cloudwatch:PutMetricData",
+        "ec2:DescribeInstances"
       ],
       "Effect": "Allow",
       "Resource": "*"
