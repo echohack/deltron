@@ -95,7 +95,7 @@ data "aws_ami" "centos" {
 }
 
 resource "aws_iam_role" "cloudwatch_metrics_role" {
-  name = "cloudwatch_metrics_role"
+  name = "cloudwatch_metrics_role_${random_id.automate_instance_id.hex}"
 
   assume_role_policy = <<EOF
 {
@@ -115,7 +115,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "cloudwatch_metrics_policy" {
-  name = "cloudwatch_metrics_policy"
+  name = "cloudwatch_metrics_policy_${random_id.automate_instance_id.hex}"
   role = "${aws_iam_role.cloudwatch_metrics_role.id}"
 
   policy = <<EOF
@@ -137,6 +137,6 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "cloudwatch_metrics_instance_profile" {
-  name = "cloudwatch_metrics_instance_profile"
-  role = "cloudwatch_metrics_role"
+  name = "cw_metrics_instance_profile_${random_id.automate_instance_id.hex}"
+  role = "${aws_iam_role.cloudwatch_metrics_role.name}"
 }
