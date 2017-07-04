@@ -37,7 +37,7 @@ resource "aws_instance" "es_backend" {
       {
         "tags": "es_backend",
         "aws": {
-          "region": "${var.aws_region}",
+          "region": "${var.aws_region}"
         },
         "elasticsearch": {
           "cluster_name": "elasticsearch_#{random_id.automate_instance_id.hex}"
