@@ -140,6 +140,6 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "cloudwatch_metrics_instance_profile" {
-  name = "cw_metrics_instance_profile_${random_id.automate_instance_id.hex}"
+  name = "cloudwatch_metrics_instance_profile_${random_id.automate_instance_id.hex}"
   role = "${aws_iam_role.cloudwatch_metrics_role.name}"
 }
