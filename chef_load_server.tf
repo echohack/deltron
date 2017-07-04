@@ -70,7 +70,13 @@ resource "aws_instance" "chef_load" {
 
   provisioner "file" {
     source = "./files/chef_load.service"
-    destination = "/etc/systemd/system/chef_load.service"
+    destination = "/tmp/chef_load.service"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mv /tmp/chef_load.service /etc/systemd/system/chef_load.service",
+    ]
   }
 
   provisioner "remote-exec" {
