@@ -7,7 +7,7 @@ chef_server_url = "https://${chef_server_fqdn}/organizations/delivery/"
 #
 # The client defined by client_name needs to be an admin user of the Chef Server org.
 client_name = "delivery-validator"
-client_key = "./delivery-validator.pem"
+client_key = "/home/centos/delivery-validator.pem"
 
 # The data_collector_url must be set if you want to make API requests to an Automate server.
 # For example: data_collector_url = "https://automate.example.org/data-collector/v0/"
