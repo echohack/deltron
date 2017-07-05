@@ -125,7 +125,16 @@ resource "aws_iam_role_policy" "cloudwatch_metrics_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "Stmt1499048077909",
+      "Sid": "Stmt1499208295508",
+      "Action": [
+        "ec2:DescribeTags",
+        "ec2:DescribeInstances"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Stmt1499208317792",
       "Action": [
         "cloudwatch:ListMetrics",
         "cloudwatch:PutMetricData",
