@@ -24,6 +24,7 @@ resource "aws_instance" "es_backend" {
     Name      = "${format("${var.automate_tag}_${random_id.automate_instance_id.hex}_esbackend_%02d", count.index + 1)}"
     X-Dept    = "${var.tag_dept}"
     X-Contact = "${var.tag_contact}"
+    TestId    = "${var.tag_test_id}"
   }
 
   provisioner "remote-exec" {
@@ -52,7 +53,7 @@ resource "aws_instance" "es_backend" {
     environment             = "_default"
     node_name               = "es-backend${self.id}-${count.index + 1}"
     fetch_chef_certificates = true
-    run_list                = ["${var.automate_es_recipe}"]
+    run_list                = ["${var.automate_es_recipe}", "collect_metrics::es_backend"]
     server_url              = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
     user_name               = "delivery-validator"
     user_key                = "${data.template_file.delivery_validator.rendered}"

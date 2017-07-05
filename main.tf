@@ -74,6 +74,10 @@ variable "tag_contact" {
   default = "irving"
 }
 
+variable "tag_test_id" {
+  default = "automate_scale_test"
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"
@@ -125,7 +129,16 @@ resource "aws_iam_role_policy" "cloudwatch_metrics_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "Stmt1499048077909",
+      "Sid": "Stmt1499208295508",
+      "Action": [
+        "ec2:DescribeTags",
+        "ec2:DescribeInstances"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Stmt1499208317792",
       "Action": [
         "cloudwatch:ListMetrics",
         "cloudwatch:PutMetricData",
@@ -140,6 +153,6 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "cloudwatch_metrics_instance_profile" {
-  name = "cw_metrics_instance_profile_${random_id.automate_instance_id.hex}"
+  name = "cloudwatch_metrics_instance_profile_${random_id.automate_instance_id.hex}"
   role = "${aws_iam_role.cloudwatch_metrics_role.name}"
 }

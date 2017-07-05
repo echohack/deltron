@@ -41,6 +41,7 @@ resource "aws_instance" "chef_server" {
     Name      = "${format("${var.automate_tag}_${random_id.automate_instance_id.hex}_chef_server_%02d", count.index + 1)}"
     X-Dept    = "${var.tag_dept}"
     X-Contact = "${var.tag_contact}"
+    TestId    = "${var.tag_test_id}"
   }
 
   # Set hostname in separate connection.
