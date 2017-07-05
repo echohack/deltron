@@ -1,4 +1,11 @@
 # Chef Server
+resource "null_resource" "generate_chef_keypair" {
+  # instead of setup.sh
+  provisioner "local-exec" {
+    command = "test -f .chef/delivery-validator-${random_id.automate_instance_id.hex}.pem || ssh-keygen -t rsa -N '' -f .chef/delivery-validator-${random_id.automate_instance_id.hex}.pem ; openssl rsa -in .chef/delivery-validator-${random_id.automate_instance_id.hex}.pem -pubout -out .chef/delivery-validator-${random_id.automate_instance_id.hex}.pub"
+  }
+}
+
 resource "aws_instance" "chef_server" {
   connection {
     user        = "${var.aws_ami_user}"
@@ -9,7 +16,7 @@ resource "aws_instance" "chef_server" {
   iam_instance_profile        = "${aws_iam_instance_profile.cloudwatch_metrics_instance_profile.id}"
   instance_type               = "${var.aws_instance_type}"
   key_name                    = "${var.aws_key_pair_name}"
-  subnet_id                   = "${data.aws_subnet_ids.automate.ids[1]}"
+  subnet_id                   = "${var.automate_subnet}"
   vpc_security_group_ids      = ["${aws_security_group.chef_server.id}"]
   associate_public_ip_address = true
   ebs_optimized               = true
@@ -36,11 +43,6 @@ resource "aws_instance" "chef_server" {
     X-Contact = "${var.tag_contact}"
   }
 
-  # instead of setup.sh
-  provisioner "local-exec" {
-    command = "test -f .chef/delivery-validator.pem || ssh-keygen -t rsa -N '' -f .chef/delivery-validator.pem ; openssl rsa -in .chef/delivery-validator.pem -pubout -out .chef/delivery-validator.pub"
-  }
-
   # Set hostname in separate connection.
   # Transient hostname doesn't set correctly in time otherwise.
   provisioner "remote-exec" {
@@ -60,7 +62,7 @@ resource "aws_instance" "chef_server" {
   }
 
   provisioner "file" {
-    source      = ".chef/delivery-validator.pub"
+    source      = ".chef/delivery-validator-${random_id.automate_instance_id.hex}.pub"
     destination = "/tmp/pre-delivery-validator.pub"
   }
 
@@ -75,14 +77,15 @@ resource "aws_instance" "chef_server" {
       "sudo chef-server-ctl add-client-key delivery delivery-validator --public-key-path /tmp/pre-delivery-validator.pub",
     ]
   }
+  depends_on = ["null_resource.generate_chef_keypair"]
 }
 
 # template to delay reading of validator key
 data "template_file" "delivery_validator" {
-  template = "${file(".chef/delivery-validator.pem")}"
+  template = "${file(".chef/delivery-validator-${random_id.automate_instance_id.hex}.pem")}"
 
-  # vars {
-  #   delivery_validator = "${file(".chef/delivery-validator.pem")}"
-  # }
+  vars {
+    hacky_thing_to_delay_evaluation = "${aws_instance.chef_server.private_ip}"
+  }
   depends_on = ["aws_instance.chef_server"]
 }

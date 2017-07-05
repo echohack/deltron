@@ -1,5 +1,5 @@
 terraform {
-  required_version = "0.9.9"
+  required_version = ">= 0.9.9"
 }
 
 # Automate customization
@@ -28,7 +28,9 @@ variable "automate_vpc" {
   default = "vpc-fa58989d"
 } # jhud-vpc in success-aws
 
-variable "automate_subnet" {}
+variable "automate_subnet" {
+  default = "subnet-63c62b04"
+}
 
 data "aws_subnet_ids" "automate" {
   vpc_id = "${var.automate_vpc}"

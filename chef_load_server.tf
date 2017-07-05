@@ -16,7 +16,7 @@ resource "aws_instance" "chef_load" {
   ami                         = "${data.aws_ami.centos.id}"
   instance_type               = "${var.aws_instance_type}"
   key_name                    = "${var.aws_key_pair_name}"
-  subnet_id                   = "${data.aws_subnet_ids.automate.ids[1]}"
+  subnet_id                   = "${var.automate_subnet}"
   vpc_security_group_ids      = ["${aws_security_group.chef_automate.id}"]
   associate_public_ip_address = true
   ebs_optimized               = true
@@ -91,5 +91,5 @@ resource "aws_instance" "chef_load" {
     ]
   }
 
-  
+
 }

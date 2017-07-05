@@ -1,7 +1,7 @@
 resource "aws_instance" "es_backend" {
   connection {
     user        = "${var.aws_ami_user}"
-    private_key = "${file(".keys/${var.aws_key_pair_name}.pem")}"
+    private_key = "${file("${var.aws_key_pair_file}")}"
   }
 
   ami                    = "${data.aws_ami.centos.id}"
