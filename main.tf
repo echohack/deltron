@@ -74,6 +74,10 @@ variable "tag_contact" {
   default = "irving"
 }
 
+variable "tag_test_id" {
+  default = "automate_scale_test"
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"

@@ -33,6 +33,7 @@ resource "aws_instance" "chef_automate" {
     Name      = "${format("${var.automate_tag}_${random_id.automate_instance_id.hex}_chef_automate_%02d", count.index + 1)}"
     X-Dept    = "${var.tag_dept}"
     X-Contact = "${var.tag_contact}"
+    TestId    = "${var.tag_test_id}"
   }
 
   # Set hostname in separate connection.
@@ -77,7 +78,7 @@ resource "aws_instance" "chef_automate" {
 
     environment             = "_default"
     fetch_chef_certificates = true
-    run_list                = ["chef-services::delivery"]
+    run_list                = ["chef-services::delivery", "collect_metrics::automate"]
     node_name               = "${aws_instance.chef_automate.public_dns}"
     server_url              = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
     user_name               = "delivery-validator"
