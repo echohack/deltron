@@ -78,7 +78,7 @@ resource "aws_instance" "chef_automate" {
 
     environment             = "_default"
     fetch_chef_certificates = true
-    run_list                = ["chef-services::delivery", "collect_metrics::automate"]
+    run_list                = ["chef-services::delivery", "collect_metrics::automate", "backend_search_cluster::logstash"]
     node_name               = "${aws_instance.chef_automate.public_dns}"
     server_url              = "https://${aws_instance.chef_server.public_dns}/organizations/delivery"
     user_name               = "delivery-validator"
