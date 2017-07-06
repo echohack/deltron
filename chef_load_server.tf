@@ -46,12 +46,6 @@ resource "aws_instance" "chef_load" {
     ]
   }
 
-  # mount the EBS volume
-  provisioner "file" {
-    source      = "mount_data_volume"
-    destination = "/tmp/mount_data_volume"
-  }
-
   provisioner "file" {
     content     = "${data.template_file.delivery_validator.rendered}"
     destination = "/home/centos/delivery-validator.pem"
