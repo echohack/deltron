@@ -78,6 +78,10 @@ variable "chef_load_rpm" {
   default = "334"   # 10k nodes splayed at 30 min interval
 }
 
+variable "external_es_count" {
+  default = 3
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"

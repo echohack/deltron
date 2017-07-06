@@ -11,7 +11,7 @@ resource "aws_instance" "es_backend" {
   subnet_id              = "${var.automate_subnet}"
   vpc_security_group_ids = ["${aws_security_group.chef_automate.id}"]
   ebs_optimized          = false
-  count                  = 3
+  count                  = "${var.external_es_count}"
   depends_on             = ["aws_instance.es_backend"]                # run in serial
 
   root_block_device {
