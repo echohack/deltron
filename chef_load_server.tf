@@ -83,6 +83,8 @@ resource "aws_instance" "chef_load" {
       "knife ssl fetch https://${aws_instance.chef_server.public_dns}",
     ]
   }
+}
 
-
+output "chef_load_server" {
+  value = "${aws_instance.chef_load.public_dns}"
 }

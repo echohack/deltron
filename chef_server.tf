@@ -68,3 +68,7 @@ data "template_file" "delivery_validator" {
   }
   depends_on = ["aws_instance.chef_server"]
 }
+
+output "chef_server" {
+  value = "${aws_instance.chef_server.public_dns}"
+}

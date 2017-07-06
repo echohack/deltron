@@ -67,3 +67,7 @@ resource "aws_instance" "es_backend" {
     ]
   }
 }
+
+output "es_backends" {
+  value = "${join(", ", aws_instance.es_backend.*.public_dns)}"
+}

@@ -64,3 +64,7 @@ resource "aws_instance" "chef_automate" {
     client_options          = ["trusted_certs_dir = '/etc/chef/trusted_certs'"]
   }
 }
+
+output "chef_automate_server" {
+  value = "${aws_instance.chef_automate.public_dns}"
+}
