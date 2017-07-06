@@ -30,14 +30,6 @@ resource "aws_instance" "chef_load" {
     #iops        = 1000
   }
 
-  ebs_block_device {
-    device_name           = "/dev/sdb"
-    volume_type           = "io1"
-    iops                  = 5000       # iops = volume_size * 50
-    volume_size           = 100
-    delete_on_termination = true
-  }
-
   tags {
     Name      = "${format("${var.automate_tag}_${random_id.automate_instance_id.hex}_chef_load_%02d", count.index + 1)}"
     X-Dept    = "${var.tag_dept}"
@@ -52,12 +44,6 @@ resource "aws_instance" "chef_load" {
       "sudo hostnamectl set-hostname ${aws_instance.chef_automate.public_dns}",
       "sudo mkdir /etc/chef/",
     ]
-  }
-
-  # mount the EBS volume
-  provisioner "file" {
-    source      = "mount_data_volume"
-    destination = "/tmp/mount_data_volume"
   }
 
   provisioner "file" {
@@ -83,7 +69,6 @@ resource "aws_instance" "chef_load" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo bash -ex /tmp/mount_data_volume",
       "sudo yum install git -y",
       "cd && git clone https://github.com/jeremiahsnapp/chef-load.git",
       "wget https://github.com/chef/chef-load/releases/download/v1.0.0/chef-load_1.0.0_Linux_64bit -O chef-load-1.0.0",
@@ -92,6 +77,8 @@ resource "aws_instance" "chef_load" {
       "knife ssl fetch https://${aws_instance.chef_server.public_dns}",
     ]
   }
+}
 
-
+output "chef_load_server" {
+  value = "${aws_instance.chef_load.public_dns}"
 }

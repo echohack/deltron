@@ -49,13 +49,9 @@ variable "aws_ami_user" {
   default = "centos"
 }
 
-variable "aws_key_pair_name" {
-  default = "example_iam_keypair"
-}
+variable "aws_key_pair_name" { }
 
-variable "aws_key_pair_file" {
-  default = "~/.ssh/example.pem"
-}
+variable "aws_key_pair_file" { }
 
 variable "automate_es_recipe" {
   default = "recipe[backend_search_cluster::search_es]"
@@ -93,7 +89,7 @@ data "aws_ami" "centos" {
 
   filter {
     name   = "name"
-    values = ["chef-highperf-centos7-201706012343"]
+    values = ["chef-highperf-centos7-*"]
   }
 
   filter {
