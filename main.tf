@@ -78,6 +78,10 @@ variable "tag_test_id" {
   default = "automate_scale_test"
 }
 
+variable "chef_load_rpm" {
+  default = "334"   # 10k nodes splayed at 30 min interval
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"

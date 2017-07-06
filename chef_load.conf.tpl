@@ -32,7 +32,7 @@ converge_status_json_file = "/home/centos/chef-load/sample-data/example-converge
 compliance_status_json_file = "/home/centos/chef-load/sample-data/example-compliance-status.json"
 
 # The number of Chef Client runs to be made per minute
-runs_per_minute = 1
+runs_per_minute = ${rpm}
 
 # Number of minutes between a node's chef-client runs
 interval = 30
