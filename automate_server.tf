@@ -15,18 +15,8 @@ resource "aws_instance" "chef_automate" {
 
   root_block_device {
     delete_on_termination = true
-    volume_size           = 20
-    volume_type           = "gp2"
-
-    #iops        = 1000
-  }
-
-  ebs_block_device {
-    device_name           = "/dev/sdb"
-    volume_type           = "io1"
-    iops                  = 5000       # iops = volume_size * 50
     volume_size           = 100
-    delete_on_termination = true
+    volume_type           = "gp2"
   }
 
   tags {
@@ -42,18 +32,6 @@ resource "aws_instance" "chef_automate" {
     inline = [
       "sudo hostnamectl set-hostname ${aws_instance.chef_automate.public_dns}",
       "sudo mkdir /etc/chef/",
-    ]
-  }
-
-  # mount the EBS volume
-  provisioner "file" {
-    source      = "mount_data_volume"
-    destination = "/tmp/mount_data_volume"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo bash -ex /tmp/mount_data_volume",
     ]
   }
 
