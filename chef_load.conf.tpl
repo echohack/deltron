@@ -19,17 +19,17 @@ data_collector_token = "93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9
 
 # Ohai data will be loaded from this file and used for the nodes' automatic attributes.
 # See the chef-load README for instructions for creating an ohai JSON file.
-ohai_json_file = "/home/centos/chef-load/sample-data/example-ohai.json"
+ohai_json_file = "${ohai_json_path}"
 
 # Data from a converge status report will be loaded from this file and used
 # for each node's converge status report that is sent to the Automate server.
 # See the chef-load README for instructions for creating a converge status JSON file.
-converge_status_json_file = "/home/centos/chef-load/sample-data/example-converge-status.json"
+converge_status_json_file = "${converge_status_json_path}"
 
 # Data from a compliance status report will be loaded from this file and used
 # for each node's compliance status report that is sent to the Automate server.
 # See the chef-load README for instructions for creating a compliance status JSON file.
-compliance_status_json_file = "/home/centos/chef-load/sample-data/example-compliance-status.json"
+compliance_status_json_file = "${compliance_status_json_path}"
 
 # The number of Chef Client runs to be made per minute
 runs_per_minute = ${rpm}

@@ -5,6 +5,9 @@ data "template_file" "chef_load_conf" {
     chef_server_fqdn     = "${aws_instance.chef_server.public_dns}"
     automate_server_fqdn = "${aws_instance.chef_automate.public_dns}"
     rpm = "${var.chef_load_rpm}"
+    ohai_json_path = "${var.ohai_json_path}"
+    compliance_status_json_path = "${var.compliance_status_json_path}"
+    converge_status_json_path = "${var.converge_status_json_path}"
   }
 }
 

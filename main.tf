@@ -82,6 +82,18 @@ variable "external_es_count" {
   default = 3
 }
 
+variable "converge_status_json_path" {
+  default = "/home/centos/chef-load/sample-data/example-converge-status.json"
+}
+
+variable "ohai_json_path" {
+  default = "/home/centos/chef-load/sample-data/example-ohai.json"
+}
+
+variable "compliance_status_json_path" {
+  default = "/home/centos/chef-load/sample-data/example-compliance-status.json"
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"
