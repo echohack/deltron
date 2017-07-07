@@ -15,6 +15,22 @@ data "aws_subnet_ids" "automate" {
   vpc_id = "${var.automate_vpc}"
 }
 
+data "aws_ami" "centos" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["chef-highperf-centos7-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["446539779517"]
+}
+
 # Chef Server
 resource "aws_instance" "chef_server" {
   connection {
@@ -22,13 +38,13 @@ resource "aws_instance" "chef_server" {
     private_key = "${file("${var.aws_key_pair_file}")}"
   }
 
-  ami                    = "${var.aws_ami_rhel}"
-  instance_type          = "${var.aws_instance_type}"
-  key_name               = "${var.aws_key_pair_name}"
-  subnet_id              = "${data.aws_subnet_ids.automate.ids[1]}"
-  vpc_security_group_ids = ["${aws_security_group.chef_server.id}"]
+  ami                         = "${data.aws_ami.centos.id}"
+  instance_type               = "${var.aws_instance_type}"
+  key_name                    = "${var.aws_key_pair_name}"
+  subnet_id                   = "${data.aws_subnet_ids.automate.ids[1]}"
+  vpc_security_group_ids      = ["${aws_security_group.chef_server.id}"]
   associate_public_ip_address = true
-  ebs_optimized          = true
+  ebs_optimized               = true
 
   root_block_device {
     delete_on_termination = true
@@ -104,7 +120,7 @@ resource "aws_instance" "chef_automate" {
     private_key = "${file("${var.aws_key_pair_file}")}"
   }
 
-  ami                    = "${var.aws_ami_rhel}"
+  ami                    = "${data.aws_ami.centos.id}"
   instance_type          = "${var.aws_instance_type}"
   key_name               = "${var.aws_key_pair_name}"
   subnet_id              = "${data.aws_subnet_ids.automate.ids[1]}"
@@ -193,7 +209,7 @@ resource "aws_instance" "build_nodes" {
     private_key = "${file("${var.aws_key_pair_file}")}"
   }
 
-  ami                    = "${var.aws_ami_rhel}"
+  ami                    = "${data.aws_ami.centos.id}"
   instance_type          = "t2.medium"
   key_name               = "${var.aws_key_pair_name}"
   subnet_id              = "${data.aws_subnet_ids.automate.ids[1]}"

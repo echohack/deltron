@@ -1,0 +1,15 @@
+[Unit]
+Description=Chef load testing tool
+After=network.target
+
+[Service]
+ExecStart=/home/centos/chef-load-1.0.0 -config /home/centos/chef_load.conf
+Type=forking
+PIDFile=/tmp/chef_load.pid
+Restart=always
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -41,7 +41,3 @@ variable "aws_instance_type" {
 variable "aws_ami_user" {
   default = "centos"
 }
-
-variable "aws_ami_rhel" {
-  default = "ami-e6963186"
-}
