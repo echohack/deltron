@@ -376,6 +376,41 @@
                 "region": "<%=availZone%>",
                 "period": 300
             }
+        },
+        {
+            "type": "metric",
+            "x": 6,
+            "y": 24,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/EC2", "LogstashHeap_logstash", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_chef_automate_01" ],
+                    [ ".", "LogstashHeap_logstash4", ".", ".", ".", "." ],
+                    [ ".", "LogstashHeap_logstash2", ".", ".", ".", "." ],
+                    [ ".", "LogstashHeap_logstash3", ".", ".", ".", "." ]
+                ],
+                "region": "us-west-2",
+                "title": "Logstash Heap Usage per Process"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 24,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/EC2", "TotalLogstashHeap", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_chef_automate_01" ]
+                ],
+                "region": "us-west-2",
+                "title": "Total Logstash Heap Usage"
+            }
         }
     ]
 }
