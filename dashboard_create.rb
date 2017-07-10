@@ -10,7 +10,7 @@ availZone = "us-west-2"
 tfState  = JSON.parse(stateFile)
 testId   = tfState['modules'][0]['resources']['aws_instance.chef_automate']['primary']['attributes']['tags.TestId']
 randomId = tfState['modules'][0]['resources']['random_id.automate_instance_id']['primary']['attributes']['hex']
-dashBoardName = "Automate_Load_Test_#{testId}"
+dashBoardName = "ALT_#{testId}_#{randomId}"
 
 renderer = ERB.new(dashFile)
 dashJson = renderer.result()
@@ -20,7 +20,4 @@ resp = cloudWatch.put_dashboard({
   dashboard_name: dashBoardName,
   dashboard_body: dashJson,
 })
-puts resp
 
-#myDash = cloudWatch.PutDashboardInput(dashBoardName)
-#myDash.create
