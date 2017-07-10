@@ -1,0 +1,416 @@
+{
+    "widgets": [
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "metrics": [
+                    [ "AWS/EC2", "5MinuteAveragePostRequestTime", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_chef_automate_01" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "metrics": [
+                    [ "AWS/EC2", "5MinuteAveragePostUpstreamResponseTime", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_chef_automate_01" ]
+                ],
+                "title": "5MinuteAveragePostUpstreamResponseTime"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 0,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "DataCollectorQueueLength",
+                "metrics": [
+                    [ "AWS/EC2", "DataCollectorQueueLength", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_chef_automate_01" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "GCYoungCollectionCount",
+                "metrics": [
+                    [ "AWS/EC2", "GCYoungCollectionCount", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "ESDiskQueueSize",
+                "metrics": [
+                    [ "AWS/EC2", "ESDiskQueueSize", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 0,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "ComplianceIndexBytes",
+                "metrics": [
+                    [ "AWS/EC2", "ComplianceIndexBytes", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "ComplianceRecords",
+                "metrics": [
+                    [ "AWS/EC2", "ComplianceRecords", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "GCOldCollectionCount (NeedsFix)",
+                "metrics": [
+                    [ "AWS/EC2", "GCOldCollectionCount", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 6,
+            "y": 12,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "GCOldCollectionTimeInMillis",
+                "metrics": [
+                    [ "AWS/EC2", "GCOldCollectionTimeInMillis", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "GCYoungCollectionCount",
+                "metrics": [
+                    [ "AWS/EC2", "GCYoungCollectionCount", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 12,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "GCYoungCollectionTImeInMillis",
+                "metrics": [
+                    [ "AWS/EC2", "GCYoungCollectionTimeInMillis", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 18,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "HeapUsedInBytes",
+                "metrics": [
+                    [ "AWS/EC2", "HeapUsedInBytes", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 6,
+            "y": 18,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "HeapUsedPercent",
+                "metrics": [
+                    [ "AWS/EC2", "HeapUsedPercent", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 12,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "NodeIndexBytes",
+                "metrics": [
+                    [ "AWS/EC2", "NodeIndexBytes", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 18,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "NodeRecords",
+                "metrics": [
+                    [ "AWS/EC2", "NodeRecords", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 18,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-west-2",
+                "title": "TotalBytes",
+                "metrics": [
+                    [ "AWS/EC2", "TotalBytes", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_04" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_05" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_06" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_07" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_08" ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 24,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/EC2", "TotalRecordsPerMinute", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_esbackend_01", { "stat": "Average" } ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_02", { "stat": "Average" } ],
+                    [ "...", "terraform_automate_1edcee86_esbackend_03", { "stat": "Average" } ]
+                ],
+                "region": "us-west-2",
+                "period": 300
+            }
+        },
+        {
+            "type": "metric",
+            "x": 6,
+            "y": 24,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/EC2", "LogstashHeap_logstash", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_chef_automate_01" ],
+                    [ ".", "LogstashHeap_logstash4", ".", ".", ".", "." ],
+                    [ ".", "LogstashHeap_logstash2", ".", ".", ".", "." ],
+                    [ ".", "LogstashHeap_logstash3", ".", ".", ".", "." ]
+                ],
+                "region": "us-west-2",
+                "title": "Logstash Heap Usage per Process"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 24,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/EC2", "TotalLogstashHeap", "TestId", "automate_scale_test", "Instance", "terraform_automate_1edcee86_chef_automate_01" ]
+                ],
+                "region": "us-west-2",
+                "title": "Total Logstash Heap Usage"
+            }
+        }
+    ]
+}
