@@ -83,15 +83,19 @@ variable "external_es_count" {
 }
 
 variable "converge_status_json_path" {
-  default = "/home/centos/chef-load/sample-data/example-converge-status.json"
+  default = "/home/centos/jnj_json/jnj_mostly_original_converge_event.json"
 }
 
 variable "ohai_json_path" {
-  default = "/home/centos/chef-load/sample-data/example-ohai.json"
+  default = "/home/centos/jnj_json/jnj_ohai.json"
 }
 
 variable "compliance_status_json_path" {
   default = "/home/centos/chef-load/sample-data/example-compliance-status.json"
+}
+
+variable "s3_json_bucket" {
+  default = "jhud-backendless-chef2-chefbucket-10qcdk8zn9z"
 }
 
 # Basic AWS info
@@ -158,7 +162,8 @@ resource "aws_iam_role_policy" "cloudwatch_metrics_policy" {
       "Action": [
         "cloudwatch:ListMetrics",
         "cloudwatch:PutMetricData",
-        "ec2:DescribeInstances"
+        "ec2:DescribeInstances",
+        "s3:GetObject"
       ],
       "Effect": "Allow",
       "Resource": "*"
