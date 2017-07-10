@@ -42,7 +42,7 @@ variable "aws_build_node_instance_type" {
 }
 
 variable "aws_instance_type" {
-  default = "m4.xlarge"
+  default = "m4.4xlarge"
 }
 
 variable "aws_ami_user" {
@@ -95,7 +95,7 @@ variable "compliance_status_json_path" {
 }
 
 variable "s3_json_bucket" {
-  default = "jhud-backendless-chef2-chefbucket-10qcdk8zn9z"
+  default = "jhud-backendless-chef2-chefbucket-10qcdk8zn9z9i"
 }
 
 # Basic AWS info
