@@ -73,7 +73,7 @@ resource "aws_instance" "chef_load" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo yum install git -y",
+      "sudo yum install git nscd -y",
       "cd && git clone https://github.com/jeremiahsnapp/chef-load.git",
       "wget https://github.com/chef/chef-load/releases/download/v1.0.0/chef-load_1.0.0_Linux_64bit -O chef-load-1.0.0",
       "chmod +x chef-load-1.0.0",
