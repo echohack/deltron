@@ -42,7 +42,7 @@ variable "aws_build_node_instance_type" {
 }
 
 variable "aws_instance_type" {
-  default = "m4.4xlarge"
+  default = "m4.xlarge"
 }
 
 variable "aws_ami_user" {
