@@ -3,7 +3,7 @@
 #
 # Be sure to include the organization name
 # For example: chef_server_url = "https://chef.example.com/organizations/demo/"
-chef_server_url = "https://${chef_server_fqdn}/organizations/delivery/"
+#chef_server_url = "https://${chef_server_fqdn}/organizations/delivery/"
 #
 # The client defined by client_name needs to be an admin user of the Chef Server org.
 client_name = "delivery-validator"
