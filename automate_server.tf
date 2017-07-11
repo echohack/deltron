@@ -57,7 +57,7 @@ resource "aws_instance" "chef_automate" {
           "total_procs": "${var.logstash_total_procs}"
         },
         "elasticsearch": {
-          "number_of_shards": "${var.es_index_shard_count}",
+          "es_number_of_shards": "${var.es_index_shard_count}",
           "max_content_length": "${var.es_max_content_length}"
         }
     }
