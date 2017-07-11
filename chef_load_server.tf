@@ -81,6 +81,7 @@ resource "aws_instance" "chef_load" {
       "knife ssl fetch https://${aws_instance.chef_server.public_dns}",
       "aws s3 cp s3://${var.s3_json_bucket}/jnj_json.tar /home/centos/jnj_json.tar",
       "tar -xzf /home/centos/jnj_json.tar",
+      "sudo systemctl start chef_load",
     ]
   }
 }
