@@ -46,6 +46,10 @@ resource "aws_instance" "es_backend" {
         "search_bootstrap": "${aws_instance.es_backend.0.public_dns}",
         "chef_server": {
             "fqdn": "${aws_instance.chef_server.public_dns}"
+        },
+        "elasticsearch": {
+          "number_of_shards": "${var.es_index_shard_count}",
+          "max_content_length": "${var.es_max_content_length}"
         }
       }
       EOF
