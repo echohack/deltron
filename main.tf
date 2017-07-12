@@ -122,6 +122,10 @@ variable "es_backend_volume_size" {
   default = 100
 }
 
+variable "logstash_workers" {
+  default = 12
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"

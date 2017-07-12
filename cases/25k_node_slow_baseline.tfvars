@@ -10,4 +10,5 @@ logstash_bulk_size = "512"
 es_index_shard_count = 5
 es_max_content_length = "1gb"
 es_backend_volume_size = 2000
+logstash_workers = 6
 #ebs_iops = 300

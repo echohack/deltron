@@ -54,7 +54,8 @@ resource "aws_instance" "chef_automate" {
         "logstash": {
           "heap_size": "${var.logstash_heap_size}",
           "bulk_size": "${var.logstash_bulk_size}",
-          "total_procs": "${var.logstash_total_procs}"
+          "total_procs": "${var.logstash_total_procs}",
+          "workers": "${var.logstash_workers}"
         },
         "elasticsearch": {
           "es_number_of_shards": "${var.es_index_shard_count}",
