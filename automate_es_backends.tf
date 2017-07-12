@@ -40,14 +40,12 @@ resource "aws_instance" "es_backend" {
           "region": "${var.aws_region}"
         },
         "elasticsearch": {
-          "cluster_name": "elasticsearch_${random_id.automate_instance_id.hex}"
+          "cluster_name": "elasticsearch_${random_id.automate_instance_id.hex}",
+          "es_number_of_shards": "${var.es_index_shard_count}",
+          "es_max_content_length": "${var.es_max_content_length}"
         },
         "chef_server": {
             "fqdn": "${aws_instance.chef_server.public_dns}"
-        },
-        "elasticsearch": {
-          "es_number_of_shards": "${var.es_index_shard_count}",
-          "max_content_length": "${var.es_max_content_length}"
         }
       }
       EOF

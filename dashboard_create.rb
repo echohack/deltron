@@ -23,3 +23,4 @@ resp = cloudWatch.put_dashboard({
   dashboard_name: dashBoardName,
   dashboard_body: dashJson,
 })
+puts "https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#dashboards:name=#{dashBoardName}"
