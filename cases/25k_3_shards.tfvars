@@ -9,4 +9,5 @@ logstash_heap_size = "2g"
 logstash_bulk_size = "512"
 es_index_shard_count = 3
 es_max_content_length = "1gb"
+es_backend_volume_size = 2000
 #ebs_iops = 300

@@ -118,6 +118,10 @@ variable "es_max_content_length" {
   default = "1gb"
 }
 
+variable "es_backend_volume_size" {
+  default = 100
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"

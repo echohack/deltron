@@ -15,7 +15,7 @@ resource "aws_instance" "es_backend" {
 
   root_block_device {
     delete_on_termination = true
-    volume_size           = 100
+    volume_size           = "${var.es_backend_volume_size}"
     volume_type           = "gp2"
   }
 
