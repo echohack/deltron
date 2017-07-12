@@ -41,7 +41,7 @@ resource "aws_instance" "es_backend" {
         },
         "elasticsearch": {
           "cluster_name": "elasticsearch_${random_id.automate_instance_id.hex}",
-          "number_of_shards": "${var.es_index_shard_count}",
+          "es_number_of_shards": "${var.es_index_shard_count}",
           "es_max_content_length": "${var.es_max_content_length}"
         },
         "chef_server": {
