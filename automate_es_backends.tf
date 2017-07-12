@@ -12,7 +12,6 @@ resource "aws_instance" "es_backend" {
   vpc_security_group_ids = ["${aws_security_group.chef_automate.id}"]
   ebs_optimized          = false
   count                  = "${var.external_es_count}"
-  depends_on             = ["aws_instance.es_backend"]                # run in serial
 
   root_block_device {
     delete_on_termination = true
@@ -43,12 +42,11 @@ resource "aws_instance" "es_backend" {
         "elasticsearch": {
           "cluster_name": "elasticsearch_${random_id.automate_instance_id.hex}"
         },
-        "search_bootstrap": "${aws_instance.es_backend.0.public_dns}",
         "chef_server": {
             "fqdn": "${aws_instance.chef_server.public_dns}"
         },
         "elasticsearch": {
-          "number_of_shards": "${var.es_index_shard_count}",
+          "es_number_of_shards": "${var.es_index_shard_count}",
           "max_content_length": "${var.es_max_content_length}"
         }
       }
