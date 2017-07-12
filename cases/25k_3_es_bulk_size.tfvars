@@ -1,0 +1,14 @@
+automate_instance_id = "25k_3_es_bulk_size"
+tag_test_id = "25k_3_es_bulk_size"
+aws_instance_type = "m4.4xlarge"
+chef_load_rpm = "834"
+automate_es_recipe = "recipe[backend_search_cluster::search_es]"
+external_es_count = 3
+logstash_total_procs = 8 
+logstash_heap_size = "2g"
+logstash_bulk_size = "1024"
+logstash_workers = 12
+es_index_shard_count = 3
+es_max_content_length = "1gb"
+es_backend_volume_size = 2000
+#ebs_iops = 300
