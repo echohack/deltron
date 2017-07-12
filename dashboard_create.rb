@@ -13,11 +13,13 @@ randomId = tfState['modules'][0]['resources']['random_id.automate_instance_id'][
 dashBoardName = "ALT_#{testId}_#{randomId}"
 
 renderer = ERB.new(dashFile)
-dashJson = renderer.result()
+
+#these steps minify the json bypassing entityTooLarge errors
+dashHash = JSON.parse(renderer.result())
+dashJson = JSON.generate(dashHash)
 
 cloudWatch = Aws::CloudWatch::Client.new(region: availZone)
 resp = cloudWatch.put_dashboard({
   dashboard_name: dashBoardName,
   dashboard_body: dashJson,
 })
-

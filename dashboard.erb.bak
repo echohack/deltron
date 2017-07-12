@@ -298,13 +298,103 @@
                 "view": "timeSeries",
                 "stacked": false,
                 "metrics": [
+                    [ "AWS/EC2", "TotalRecordsPerMinute", "TestId", "25k_node_slow_baseline", "Instance", "terraform_automate_a77f907f_esbackend_01", { "stat": "Average" } ],
+                    [ "...", "terraform_automate_a77f907f_esbackend_02", { "stat": "Average" } ],
+                    [ "...", "terraform_automate_a77f907f_esbackend_03", { "stat": "Average" } ]
+                ],
+                "region": "us-west-2",
+                "period": 300,
+                "title": "Documents Ingested Per Minute"
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "<%=availZone%>",
+                "title": "NodeIndexBytes",
+                "metrics": [
+                    [ "AWS/EC2", "NodeIndexBytes", "TestId", "<%=testId%>", "Instance", "terraform_automate_<%=randomId%>_esbackend_01" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_02" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_03" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_04" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_05" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_06" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_07" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_08" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 12,
+            "y": 18,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "<%=availZone%>",
+                "title": "NodeRecords",
+                "metrics": [
+                    [ "AWS/EC2", "NodeRecords", "TestId", "<%=testId%>", "Instance", "terraform_automate_<%=randomId%>_esbackend_01" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_02" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_03" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_04" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_05" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_06" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_07" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_08" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 18,
+            "y": 18,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "<%=availZone%>",
+                "title": "TotalBytes",
+                "metrics": [
+                    [ "AWS/EC2", "TotalBytes", "TestId", "<%=testId%>", "Instance", "terraform_automate_<%=randomId%>_esbackend_01" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_02" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_03" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_04" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_05" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_06" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_07" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_08" ],
+                    [ "...", "terraform_automate_<%=randomId%>_esbackend_09" ]
+                ]
+            }
+        },
+        {
+            "type": "metric",
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
                     [ "AWS/EC2", "TotalRecordsPerMinute", "TestId", "<%=testId%>", "Instance", "terraform_automate_<%=randomId%>_esbackend_01", { "stat": "Average" } ],
                     [ "...", "terraform_automate_<%=randomId%>_esbackend_02", { "stat": "Average" } ],
                     [ "...", "terraform_automate_<%=randomId%>_esbackend_03", { "stat": "Average" } ]
                 ],
                 "region": "<%=availZone%>",
-                "period": 300,
-                "title": "Documents Ingested Per Minute"
+                "period": 300
             }
         },
         {
