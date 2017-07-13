@@ -6,7 +6,7 @@ resource "aws_instance" "chef_automate" {
 
   ami                         = "${data.aws_ami.centos.id}"
   iam_instance_profile        = "${aws_iam_instance_profile.cloudwatch_metrics_instance_profile.id}"
-  instance_type               = "${var.aws_instance_type}"
+  instance_type               = "${var.automate_server_instance_type}"
   key_name                    = "${var.aws_key_pair_name}"
   subnet_id                   = "${var.automate_subnet}"
   vpc_security_group_ids      = ["${aws_security_group.chef_automate.id}"]
