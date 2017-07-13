@@ -14,7 +14,7 @@ resource "aws_instance" "chef_server" {
 
   ami                         = "${data.aws_ami.centos.id}"
   iam_instance_profile        = "${aws_iam_instance_profile.cloudwatch_metrics_instance_profile.id}"
-  instance_type               = "${var.aws_instance_type}"
+  instance_type               = "${var.chef_server_instance_type}"
   key_name                    = "${var.aws_key_pair_name}"
   subnet_id                   = "${var.automate_subnet}"
   vpc_security_group_ids      = ["${aws_security_group.chef_server.id}"]
@@ -68,6 +68,24 @@ data "template_file" "delivery_validator" {
   }
   depends_on = ["aws_instance.chef_server"]
 }
+
+# TODO: write out a knife.rb
+# data "template_file" "knife_rb" {
+#   template = <<-EOF
+#   current_dir = File.dirname(__FILE__)
+#   log_level                :info
+#   log_location             STDOUT
+#   node_name                "delivery-validator"
+#   client_key               ".chef/delivery-validator-${random_id.automate_instance_id.hex}.pem"
+#   chef_server_url          "https://api.opscode.com/organizations/irvingpop"
+#   cache_type               'BasicFile'
+#   cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
+#   EOF
+#
+#   vars {
+#     consul_address = "${aws_instance.consul.private_ip}"
+#   }
+# }
 
 output "chef_server" {
   value = "${aws_instance.chef_server.public_dns}"

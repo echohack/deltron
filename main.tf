@@ -41,7 +41,19 @@ variable "aws_build_node_instance_type" {
   default = "t2.medium"
 }
 
-variable "aws_instance_type" {
+variable "chef_server_instance_type" {
+  default = "m4.xlarge"
+}
+
+variable "automate_server_instance_type" {
+  default = "m4.xlarge"
+}
+
+variable "es_backend_instance_type" {
+  default = "m4.xlarge"
+}
+
+variable "chef_load_instance_type" {
   default = "m4.xlarge"
 }
 
