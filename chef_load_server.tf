@@ -25,6 +25,7 @@ resource "aws_instance" "chef_load" {
   vpc_security_group_ids      = ["${aws_security_group.chef_automate.id}"]
   associate_public_ip_address = true
   ebs_optimized               = true
+  count                  = "${var.chef_load_count}"
 
   root_block_device {
     delete_on_termination = true

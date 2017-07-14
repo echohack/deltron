@@ -1,0 +1,17 @@
+automate_instance_id = "60k_3es_c48x"
+tag_test_id = "60k_3es_c48x"
+chef_server_instance_type = "m4.xlarge"
+chef_load_instance_type = "m4.xlarge"
+automate_server_instance_type = "c4.8xlarge"
+es_backend_instance_type = "c4.8xlarge"
+chef_load_rpm = "1000"
+automate_es_recipe = "recipe[backend_search_cluster::search_es]"
+external_es_count = 3
+chef_load_count =2
+logstash_total_procs = 16
+logstash_heap_size = "2g"
+logstash_bulk_size = "40"
+es_index_shard_count = 3
+es_max_content_length = "2gb"
+es_backend_volume_size = 500
+#ebs_iops = 300

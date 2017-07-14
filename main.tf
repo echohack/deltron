@@ -138,6 +138,10 @@ variable "logstash_workers" {
   default = 12
 }
 
+variable "chef_load_count" {
+  default = 1
+}
+
 # Basic AWS info
 provider "aws" {
   region  = "${var.aws_region}"
