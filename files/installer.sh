@@ -82,7 +82,8 @@ fi
 mkdir -p $INSTALL_DIR/chef_installer/.chef/cache/
 cd $INSTALL_DIR/chef_installer
 if [ ! -d "/opt/chefdk" ]; then
-  curl -LO https://omnitruck.chef.io/install.sh && sudo bash ./install.sh -P chefdk -d $INSTALL_DIR/chef_installer && rm install.sh
+  curl -O https://packages.chef.io/files/stable/chefdk/2.6.1/el/7/chefdk-2.6.1-1.el7.x86_64.rpm
+  sudo rpm -Uvh ./chefdk-2.6.1-1.el7.x86_64.rpm
 fi
 
 # write out Berksfile of install cookbooks
